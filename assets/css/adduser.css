@@ -1,0 +1,122 @@
+/* ==========================================================================
+   ADD USER PAGE STYLES
+   ========================================================================== */
+
+/* 🔥 FORM CARD SECTIONS */
+.adduser-page .rex-form-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; overflow: hidden; }
+.adduser-page .rex-form-card-header { background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%); padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; }
+.adduser-page .rex-form-card-header h5 { color: #1A1A1A; font-size: 1.05rem; font-weight: 600; }
+.adduser-page .rex-form-card-header h5 i { color: var(--primary-color); }
+.adduser-page .rex-form-card-body { padding: 1.5rem; }
+
+/* 🔥 FLOATING INPUTS */
+.adduser-page .rex-floating-group .form-control,
+.adduser-page .rex-floating-group .form-select { border: 1.5px solid #e5e7eb; border-radius: 8px; padding: 1rem 0.75rem 0.25rem 0.75rem; height: 58px; font-size: 0.95rem; transition: all 0.3s ease; background-color: #fafafa; }
+.adduser-page .rex-floating-group textarea.form-control { height: auto !important; padding-top: 1.5rem; }
+.adduser-page .rex-floating-group .form-control:focus,
+.adduser-page .rex-floating-group .form-select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 4px rgba(212, 32, 32, 0.1); background-color: #fff; }
+.adduser-page .rex-floating-group label { color: #6b7280; font-weight: 500; padding: 1rem 0.75rem; }
+.adduser-page .rex-floating-group .form-control:focus ~ label,
+.adduser-page .rex-floating-group .form-control:not(:placeholder-shown) ~ label,
+.adduser-page .rex-floating-group .form-select ~ label { color: var(--primary-color); font-size: 0.8rem; font-weight: 600; transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem); }
+
+/* 🔥 USER TYPE GRID */
+.user-type-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+
+.user-type-item { position: relative; }
+.user-type-item input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+
+.user-type-label { display: flex; flex-direction: column; align-items: center; padding: 1.5rem 1rem; border: 2px solid #e5e7eb; border-radius: 12px; background: #fafafa; cursor: pointer; transition: all 0.2s ease; text-align: center; height: 100%; }
+.user-type-label:hover { border-color: var(--primary-color); background: #fef3f3; transform: translateY(-2px); }
+
+.user-type-item input:checked + .user-type-label { border-color: var(--primary-color); background: #fde8e8; box-shadow: 0 4px 12px rgba(212, 32, 32, 0.15); }
+
+.user-type-label i { font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem; }
+.user-type-label strong { font-size: 0.95rem; color: #1A1A1A; margin-bottom: 0.25rem; }
+.user-type-label small { color: #6b7280; font-size: 0.75rem; }
+
+/* 🔥 DIALING CODE */
+.adduser-page .rex-dialing-code { background: #f3f4f6; border: 1.5px solid #e5e7eb; border-right: none; color: #1A1A1A; font-weight: 600; border-radius: 8px 0 0 8px; padding: 0 0.75rem; }
+
+/* 🔥 BRANCH & CUSTOMER INFO CARDS */
+.branch-info-card, .customer-info-card { background: #f9fafb; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 1.25rem; min-height: 180px; }
+
+.branch-info-placeholder, .customer-info-placeholder { text-align: center; color: #9ca3af; padding: 2rem 1rem; }
+.branch-info-placeholder i, .customer-info-placeholder i { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+
+.branch-info-content, .customer-info-content { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.customer-info-header { display: flex; align-items: center; gap: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb; margin-bottom: 0.75rem; }
+.customer-info-header i { font-size: 2rem; color: var(--primary-color); }
+.customer-info-header h6 { color: #1A1A1A; }
+
+.branch-info-row, .customer-info-row { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.85rem; }
+.branch-info-row .label, .customer-info-row .label { color: #6b7280; font-weight: 500; }
+.branch-info-row .value, .customer-info-row .value { color: #1A1A1A; font-weight: 600; }
+
+/* 🔥 PASSWORD WRAPPER */
+.rex-password-wrapper { position: relative; }
+.rex-password-wrapper .form-control { padding-right: 45px; }
+
+.rex-password-toggle { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: #6b7280; cursor: pointer; z-index: 10; padding: 5px; border-radius: 4px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+.rex-password-toggle:hover { color: var(--primary-color); background: var(--primary-light); }
+
+/* 🔥 PASSWORD STRENGTH METER */
+.password-strength-meter .strength-bar { height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+.password-strength-meter .strength-fill { height: 100%; width: 0%; transition: all 0.3s ease; border-radius: 3px; }
+.password-strength-meter .strength-fill.weak { width: 25%; background: #dc2626; }
+.password-strength-meter .strength-fill.fair { width: 50%; background: #f59e0b; }
+.password-strength-meter .strength-fill.good { width: 75%; background: #3b82f6; }
+.password-strength-meter .strength-fill.strong { width: 100%; background: #10b981; }
+
+/* 🔥 PASSWORD REQUIREMENTS */
+.password-requirements { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; }
+.requirement-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0; font-size: 0.85rem; color: #6b7280; transition: all 0.2s; }
+.requirement-item i { font-size: 0.75rem; }
+.requirement-item.met { color: #059669; }
+.requirement-item.met i { color: #059669; }
+.requirement-item.met i::before { content: "\f26a"; } /* bi-check-circle-fill */
+
+/* 🔥 PASSWORD MATCH INDICATOR */
+.password-match-indicator { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; border-radius: 6px; background: #f9fafb; border: 1px solid #e5e7eb; font-size: 0.85rem; color: #6b7280; }
+.password-match-indicator.match { background: #d1fae5; border-color: #6ee7b7; color: #065f46; }
+.password-match-indicator.no-match { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+
+/* 🔥 SECURITY TIPS */
+.security-tips { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 1rem; }
+.security-tips ul { margin-bottom: 0; padding-left: 1.25rem; }
+.security-tips li { margin-bottom: 0.25rem; }
+
+/* 🔥 SWITCH TOGGLE */
+.adduser-page .rex-switch-group { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; min-height: 58px; }
+.adduser-page .rex-switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+.adduser-page .rex-switch input { opacity: 0; width: 0; height: 0; }
+.adduser-page .rex-switch-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #d1d5db; transition: 0.3s; border-radius: 24px; }
+.adduser-page .rex-switch-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: 0.3s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.adduser-page .rex-switch input:checked + .rex-switch-slider { background-color: var(--primary-color); }
+.adduser-page .rex-switch input:checked + .rex-switch-slider:before { transform: translateX(20px); }
+.adduser-page .rex-switch-label { font-size: 0.9rem; font-weight: 500; color: #374151; }
+
+/* 🔥 FORM ACTIONS */
+.adduser-page .rex-form-actions { display: flex; justify-content: flex-end; gap: 0.75rem; padding: 1.5rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; margin-bottom: 2rem; }
+
+/* 🔥 SUCCESS MODAL */
+.adduser-page .success-icon-wrapper { width: 90px; height: 90px; margin: 0 auto; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: successPulse 0.6s ease; }
+.adduser-page .success-icon-wrapper i { font-size: 3rem; color: #059669; }
+@keyframes successPulse { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+
+.credentials-card { background: #f8f9fa; border: 1px solid #e5e7eb; border-radius: 10px; padding: 1rem; text-align: left; }
+.credentials-row { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.9rem; border-bottom: 1px solid #e5e7eb; }
+.credentials-row:last-child { border-bottom: none; }
+.credentials-row .label { color: #6b7280; font-weight: 500; }
+.credentials-row .value { color: #1A1A1A; font-weight: 600; font-family: monospace; }
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 767.98px) {
+    .adduser-page .rex-form-card-body { padding: 1rem; }
+    .adduser-page .rex-form-actions { flex-direction: column-reverse; }
+    .adduser-page .rex-form-actions .btn { width: 100%; }
+    .user-type-grid { grid-template-columns: repeat(2, 1fr); }
+}
+

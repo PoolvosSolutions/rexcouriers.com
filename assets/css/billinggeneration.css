@@ -1,0 +1,474 @@
+/* ==========================================================================
+   BILLING GENERATION PAGE STYLES
+   ========================================================================== */
+
+/* 🔥 CARDS */
+.billing-page .bill-config-card,
+.billing-page .preview-stats-card,
+.billing-page .preview-results-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.billing-page .card-header-custom {
+    background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+.billing-page .card-header-custom h5 {
+    color: #1A1A1A;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+}
+.billing-page .card-header-custom h5 i {
+    color: var(--primary-color);
+}
+.billing-page .card-body-custom {
+    padding: 1.5rem;
+}
+
+/* 🔥 CONFIG SECTIONS */
+.config-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+.config-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 1rem;
+}
+
+.section-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+
+.config-actions {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 2px solid #f3f4f6;
+}
+
+.billing-page .form-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.billing-page .form-control,
+.billing-page .form-select {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+}
+.billing-page .form-control:focus,
+.billing-page .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(212, 32, 32, 0.1);
+}
+
+/* 🔥 QUICK DATES */
+.quick-dates .quick-date {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+}
+
+/* 🔥 PREVIEW STATS */
+.preview-stats-card {
+    margin-bottom: 1rem;
+    padding: 1.25rem;
+}
+
+.preview-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+}
+
+.preview-stat .stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+.preview-stat .stat-customers { background: #dbeafe; color: #1e40af; }
+.preview-stat .stat-shipments { background: #fef3c7; color: #92400e; }
+.preview-stat .stat-total { background: #d1fae5; color: #065f46; }
+.preview-stat .stat-selected { background: #e0e7ff; color: #3730a3; }
+
+.preview-stat .stat-info { flex: 1; }
+.preview-stat .stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1A1A1A;
+    line-height: 1;
+}
+.preview-stat .stat-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+/* 🔥 EMPTY STATE */
+.empty-preview-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #9ca3af;
+}
+.empty-preview-state i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #d1d5db;
+}
+.empty-preview-state h5 {
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.empty-preview-state p {
+    color: #9ca3af;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* 🔥 CUSTOMER GROUP CARDS */
+.customer-bill-group {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.2s;
+}
+.customer-bill-group:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.customer-bill-group.has-selection {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+.customer-bill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px dashed #e5e7eb;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.customer-bill-info {
+    flex: 1;
+    min-width: 200px;
+}
+.customer-bill-info h6 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin: 0 0 0.25rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.customer-bill-info .account-no {
+    font-family: monospace;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.customer-bill-info small {
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+.customer-bill-totals {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.bill-total-badge {
+    background: white;
+    padding: 0.4rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    border: 1px solid #e5e7eb;
+}
+.bill-total-badge strong {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+.bill-total-badge.total strong {
+    color: #065f46;
+    font-size: 1rem;
+}
+
+.customer-select-all {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+}
+
+/* 🔥 SHIPMENT ROWS */
+.shipments-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 0.5rem;
+}
+
+.shipment-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    margin-bottom: 0.4rem;
+    transition: all 0.15s;
+    font-size: 0.85rem;
+}
+.shipment-row:hover {
+    background: #fef3f3;
+    border-color: var(--primary-color);
+}
+.shipment-row.selected {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+.shipment-row .form-check-input {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+}
+
+.shipment-info {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.shipment-awb {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-family: monospace;
+    font-size: 0.85rem;
+}
+.shipment-date {
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+.shipment-destination {
+    color: #374151;
+    font-size: 0.8rem;
+}
+.shipment-destination i {
+    color: #9ca3af;
+}
+.shipment-amount {
+    font-weight: 700;
+    color: #065f46;
+    font-family: monospace;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.shipment-status {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+.shipment-status.Delivered { background: #d1fae5; color: #065f46; }
+.shipment-status.Intransit { background: #fef3c7; color: #92400e; }
+.shipment-status.Booked { background: #e0e7ff; color: #3730a3; }
+
+/* 🔥 CONFIRMATION MODAL */
+.confirm-bill-item {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.confirm-bill-item .customer-name {
+    font-weight: 600;
+    color: #1A1A1A;
+}
+.confirm-bill-item .customer-meta {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+.confirm-bill-item .bill-details {
+    text-align: right;
+}
+.confirm-bill-item .shipment-count {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+.confirm-bill-item .bill-amount {
+    font-weight: 700;
+    color: #065f46;
+    font-family: monospace;
+    font-size: 1rem;
+}
+
+.confirm-summary {
+    background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid #86efac;
+}
+.confirm-summary .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed #86efac;
+}
+.confirm-summary .summary-row:last-child {
+    border-bottom: none;
+}
+.confirm-summary .summary-row.grand {
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 2px solid #065f46;
+    font-size: 1.1rem;
+}
+
+/* 🔥 SUCCESS INFO */
+.success-info {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: left;
+}
+.success-info .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed #e5e7eb;
+}
+.success-info .info-row:last-child {
+    border-bottom: none;
+}
+.success-info .info-row .label {
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+.success-info .info-row .value {
+    font-weight: 600;
+    color: #1A1A1A;
+    font-size: 0.9rem;
+}
+
+/* 🔥 SUCCESS ICON */
+.billing-page .success-icon-wrapper {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.billing-page .success-icon-wrapper i {
+    font-size: 3rem;
+    color: #059669;
+}
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 767.98px) {
+    .billing-page .card-body-custom {
+        padding: 1rem;
+    }
+    .customer-bill-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .shipment-info {
+        grid-template-columns: 1fr 1fr;
+    }
+    .preview-stat {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* 🔥 SCROLLBAR */
+.shipments-list::-webkit-scrollbar {
+    width: 6px;
+}
+.shipments-list::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 3px;
+}
+.shipments-list::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+.shipments-list::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* 🔥 LOADING STATE */
+.loading-preview {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+.loading-preview .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: var(--primary-color);
+}
+.loading-preview p {
+    margin-top: 1rem;
+    color: #6b7280;
+}
+
+/* 🔥 NO SHIPMENTS STATE */
+.no-shipments-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #9ca3af;
+}
+.no-shipments-state i {
+    font-size: 3rem;
+    color: #d1d5db;
+    margin-bottom: 1rem;
+}
+.no-shipments-state h5 {
+    color: #6b7280;
+    font-weight: 600;
+}

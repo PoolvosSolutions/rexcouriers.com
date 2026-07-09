@@ -1,0 +1,220 @@
+/* ==========================================================================
+   TRACK SHIPMENT PAGE STYLES
+   ========================================================================== */
+
+/* 🔥 STAT CARDS */
+.tracking-page .stat-card { background: #fff; border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; transition: all 0.3s ease; }
+.tracking-page .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.tracking-page .stat-icon { width: 45px; height: 45px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+.tracking-page .stat-total .stat-icon { background: #dbeafe; color: #1e40af; }
+.tracking-page .stat-booked .stat-icon { background: #e0e7ff; color: #3730a3; }
+.tracking-page .stat-intransit .stat-icon { background: #fef3c7; color: #92400e; }
+.tracking-page .stat-delivered .stat-icon { background: #d1fae5; color: #065f46; }
+.tracking-page .stat-hold .stat-icon { background: #fce7f3; color: #9d174d; }
+.tracking-page .stat-exception .stat-icon { background: #fee2e2; color: #991b1b; }
+.tracking-page .stat-value { font-size: 1.5rem; font-weight: 700; color: #1A1A1A; line-height: 1; }
+.tracking-page .stat-label { font-size: 0.8rem; color: #6b7280; margin-top: 0.2rem; }
+
+/* 🔥 FILTER, PAGINATION, TABLE */
+.tracking-page .filter-card, .tracking-page .pagination-controls, .tracking-page .table-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; }
+.tracking-page .filter-header { background: #f8f9fa; padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+.tracking-page .filter-body { padding: 1.5rem; }
+.tracking-page .pagination-controls { padding: 1rem 1.5rem; }
+.tracking-page .table-card .table thead { background: #f8f9fa; }
+.tracking-page .table-card .table thead th { font-size: 0.8rem; font-weight: 600; color: #374151; text-transform: uppercase; padding: 1rem; border: none; letter-spacing: 0.5px; }
+.tracking-page .table-card .table tbody tr { transition: background 0.2s; }
+.tracking-page .table-card .table tbody tr:hover { background: #fef3f3; }
+.tracking-page .table-card .table tbody td { padding: 0.85rem 1rem; font-size: 0.88rem; color: #374151; vertical-align: middle; }
+
+/* 🔥 AWB/PI CELL */
+.awb-pi-cell { display: flex; flex-direction: column; gap: 0.15rem; }
+.awb-number { font-weight: 700; color: var(--primary-color); font-family: monospace; font-size: 0.9rem; letter-spacing: 0.5px; }
+.pi-number { font-size: 0.75rem; color: #6b7280; font-family: monospace; }
+
+/* 🔥 CUSTOMER CELL */
+.customer-name { font-weight: 600; color: #1A1A1A; font-size: 0.88rem; display: block; }
+.customer-account { font-size: 0.75rem; color: #6b7280; }
+
+/* 🔥 DESTINATION CELL */
+.destination-city { font-weight: 600; color: #1A1A1A; font-size: 0.85rem; display: block; }
+.destination-country { font-size: 0.75rem; color: #6b7280; }
+
+/* 🔥 CARRIER CELL */
+.carrier-badge { padding: 0.3rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+.carrier-badge.assigned { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
+.carrier-badge.unassigned { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+
+/* 🔥 STATUS BADGES */
+.status-badge { padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
+.status-booked { background: #e0e7ff; color: #3730a3; }
+.status-intransit { background: #fef3c7; color: #92400e; }
+.status-hold { background: #fce7f3; color: #9d174d; }
+.status-delivered { background: #d1fae5; color: #065f46; }
+.status-returned { background: #f3e8ff; color: #6b21a8; }
+.status-lost { background: #fee2e2; color: #991b1b; }
+.status-destroyed { background: #1f2937; color: #fff; }
+
+/* 🔥 ACTION BUTTONS */
+.tracking-page .action-buttons { display: flex; gap: 0.4rem; justify-content: center; flex-wrap: wrap; }
+.tracking-page .btn-action { width: 32px; height: 32px; border-radius: 6px; border: none; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; }
+.tracking-page .btn-view { background: #d1fae5; color: #065f46; }
+.tracking-page .btn-view:hover { background: #065f46; color: #fff; }
+.tracking-page .btn-update { background: #fef3c7; color: #92400e; }
+.tracking-page .btn-update:hover { background: #92400e; color: #fff; }
+.tracking-page .btn-print { background: #dbeafe; color: #1e40af; }
+.tracking-page .btn-print:hover { background: #1e40af; color: #fff; }
+.tracking-page .btn-print-status { background: #f3e8ff; color: #6b21a8; }
+.tracking-page .btn-print-status:hover { background: #6b21a8; color: #fff; }
+
+/* 🔥 UPDATE STATUS MODAL */
+.current-status-box { background: linear-gradient(135deg, #f8f9fa 0%, #e5e7eb 100%); padding: 1rem; border-radius: 10px; border: 1px solid #e5e7eb; }
+.mono { font-family: monospace; letter-spacing: 0.5px; }
+
+.edit-section { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #f3f4f6; }
+.edit-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.section-title { font-size: 0.95rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f3f4f6; }
+
+#updateStatusModal .form-label { font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 0.4rem; }
+#updateStatusModal .form-control, #updateStatusModal .form-select { border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 0.9rem; padding: 0.6rem 0.75rem; }
+#updateStatusModal .form-control:focus, #updateStatusModal .form-select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(212, 32, 32, 0.1); }
+
+/* 🔥 STATUS HISTORY TIMELINE */
+.status-timeline { position: relative; padding-left: 2rem; }
+.status-timeline::before { content: ''; position: absolute; left: 0.75rem; top: 0; bottom: 0; width: 2px; background: #e5e7eb; }
+
+.timeline-item { position: relative; padding-bottom: 1rem; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::before { 
+    content: ''; 
+    position: absolute; 
+    left: -1.6rem; 
+    top: 0.25rem; 
+    width: 12px; 
+    height: 12px; 
+    border-radius: 50%; 
+    background: #d1d5db; 
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px #e5e7eb;
+}
+.timeline-item.current::before { background: var(--primary-color); box-shadow: 0 0 0 2px #fde8e8; }
+.timeline-item.completed::before { background: #10b981; }
+
+.timeline-status { font-weight: 600; color: #1A1A1A; font-size: 0.9rem; }
+.timeline-date { font-size: 0.75rem; color: #6b7280; }
+.timeline-meta { font-size: 0.75rem; color: #9ca3af; font-style: italic; }
+
+/* 🔥 VIEW MODAL */
+.view-section { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #f3f4f6; }
+.view-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.view-section-title { font-size: 0.95rem; font-weight: 700; color: var(--primary-color); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f3f4f6; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.view-numbers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; background: linear-gradient(135deg, #f8f9fa 0%, #e5e7eb 100%); padding: 1rem; border-radius: 10px; margin-bottom: 1rem; }
+.view-number-box { background: white; padding: 0.75rem 1rem; border-radius: 8px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.view-number-box .label { display: block; font-size: 0.75rem; color: #6b7280; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.view-number-box .value { display: block; font-size: 1.1rem; font-weight: 700; color: var(--primary-color); font-family: monospace; margin-top: 0.25rem; }
+
+.view-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.5rem; }
+.view-field { display: flex; justify-content: space-between; padding: 0.5rem 0.75rem; background: #f9fafb; border-radius: 6px; border: 1px solid #e5e7eb; }
+.view-field .label { font-size: 0.85rem; color: #6b7280; font-weight: 500; }
+.view-field .value { font-size: 0.85rem; color: #1A1A1A; font-weight: 600; text-align: right; max-width: 60%; word-break: break-word; }
+
+/* 🔥 SUCCESS ICON */
+.tracking-page .success-icon-wrapper { width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.tracking-page .success-icon-wrapper i { font-size: 2.5rem; color: #059669; }
+
+.status-update-info { background: #f9fafb; border-radius: 10px; padding: 1rem; text-align: left; }
+.info-row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px dashed #e5e7eb; }
+.info-row:last-child { border-bottom: none; }
+.info-row .label { color: #6b7280; font-size: 0.85rem; }
+.info-row .value { font-weight: 600; color: #1A1A1A; font-size: 0.9rem; }
+
+/* 🔥 PAGINATION */
+.tracking-page .pagination .page-link { border: 1px solid #e5e7eb; color: #374151; padding: 0.5rem 0.85rem; font-size: 0.9rem; margin: 0 0.15rem; border-radius: 6px; }
+.tracking-page .pagination .page-item.active .page-link { background: var(--primary-color); border-color: var(--primary-color); color: #fff; }
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 767.98px) {
+    .tracking-page .stat-card { padding: 0.75rem; }
+    .tracking-page .stat-value { font-size: 1.25rem; }
+    .tracking-page .filter-body { padding: 1rem; }
+    .tracking-page .pagination-controls { padding: 0.75rem 1rem; }
+    .tracking-page .table-card .table thead th,
+    .tracking-page .table-card .table tbody td { padding: 0.6rem 0.5rem; font-size: 0.8rem; }
+    .view-numbers-grid { grid-template-columns: 1fr 1fr; }
+    .view-grid { grid-template-columns: 1fr; }
+    .tracking-page .action-buttons { flex-direction: column; align-items: stretch; }
+    .tracking-page .btn-action { width: 100%; }
+}
+
+
+/* 🔥 ASSIGN CARRIER BUTTON */
+.tracking-page .btn-assign-carrier { background: #d1fae5; color: #065f46; }
+.tracking-page .btn-assign-carrier:hover { background: #065f46; color: #fff; }
+
+/* 🔥 CURRENT SHIPMENT BOX */
+.current-shipment-box { background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%); padding: 1rem; border-radius: 10px; border: 1px solid #86efac; }
+
+/* 🔥 CURRENT CARRIER INFO */
+.current-carrier-info { background: #f9fafb; padding: 1rem; border-radius: 10px; border: 1px solid #e5e7eb; }
+
+/* 🔥 CARRIER DETAILS PREVIEW */
+.carrier-details-preview { background: #eff6ff; padding: 1rem; border-radius: 10px; border: 1px solid #bfdbfe; margin-top: 1rem; }
+.carrier-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.carrier-info-item { display: flex; justify-content: space-between; padding: 0.4rem 0.75rem; background: white; border-radius: 6px; border: 1px solid #e5e7eb; }
+.carrier-info-item .label { font-size: 0.85rem; color: #6b7280; font-weight: 500; }
+.carrier-info-item .value { font-size: 0.85rem; color: #1A1A1A; font-weight: 600; }
+
+/* 🔥 SUCCESS ICON FOR CARRIER */
+#carrierAssignSuccessModal .success-icon-wrapper { background: linear-gradient(135deg, #d1fae5 0%, #86efac 100%); }
+#carrierAssignSuccessModal .success-icon-wrapper i { color: #065f46; }
+
+
+
+
+/* 🔥 QUICK REASONS */
+.quick-reasons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.quick-reason-btn {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.quick-reason-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* 🔥 TIMELINE REASON & DETAILS (Customer View) */
+.timeline-reason {
+    background: #f9fafb;
+    border-left: 3px solid #dc2626;
+    padding: 0.5rem 0.75rem;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #374151;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+}
+
+.timeline-detail {
+    background: #eff6ff;
+    border-left: 3px solid #3b82f6;
+    padding: 0.4rem 0.75rem;
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    color: #1e40af;
+    border-radius: 0 6px 6px 0;
+}
+
+.timeline-detail i {
+    color: #3b82f6;
+}
+

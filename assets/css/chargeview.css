@@ -1,0 +1,65 @@
+/* ==========================================================================
+   CHARGE LIST VIEW STYLES
+   ========================================================================== */
+
+/* 🔥 STAT CARDS */
+.chargeview-page .stat-card { background: #fff; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; transition: all 0.3s ease; }
+.chargeview-page .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.chargeview-page .stat-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+.chargeview-page .stat-total .stat-icon { background: #dbeafe; color: #1e40af; }
+.chargeview-page .stat-active .stat-icon { background: #d1fae5; color: #065f46; }
+.chargeview-page .stat-mandatory .stat-icon { background: #fee2e2; color: #991b1b; }
+.chargeview-page .stat-optional .stat-icon { background: #f3f4f6; color: #4b5563; }
+.chargeview-page .stat-value { font-size: 1.75rem; font-weight: 700; color: #1A1A1A; line-height: 1; }
+.chargeview-page .stat-label { font-size: 0.85rem; color: #6b7280; margin-top: 0.25rem; }
+
+/* 🔥 FILTER & PAGINATION & TABLE (Reusing standard patterns) */
+.chargeview-page .filter-card, .chargeview-page .pagination-controls, .chargeview-page .table-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; }
+.chargeview-page .filter-header { background: #f8f9fa; padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+.chargeview-page .filter-body { padding: 1.5rem; }
+.chargeview-page .pagination-controls { padding: 1rem 1.5rem; }
+.chargeview-page .table-card .table thead { background: #f8f9fa; }
+.chargeview-page .table-card .table thead th { font-size: 0.85rem; font-weight: 600; color: #374151; text-transform: uppercase; padding: 1rem; border: none; }
+.chargeview-page .table-card .table tbody tr:hover { background: #fef3f3; }
+.chargeview-page .table-card .table tbody td { padding: 1rem; font-size: 0.9rem; color: #374151; vertical-align: middle; }
+
+/* 🔥 SPECIFIC BADGES */
+.charge-badge { padding: 0.3rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+.badge-cat-standard { background: #dbeafe; color: #1e40af; }
+.badge-cat-surcharge { background: #ffedd5; color: #9a3412; }
+.badge-cat-service { background: #f3e8ff; color: #6b21a8; }
+.badge-cat-penalty { background: #fee2e2; color: #991b1b; }
+.badge-cat-discount { background: #d1fae5; color: #065f46; }
+
+.badge-nature-mandatory { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+.badge-nature-optional { background: #f3f4f6; color: #4b5563; border: 1px solid #d1d5db; }
+
+.badge-calc { background: #f8f9fa; color: #374151; border: 1px solid #e5e7eb; font-family: monospace; font-weight: 700; }
+
+/* 🔥 APPLICABILITY ICONS */
+.applicability-icons { display: flex; gap: 0.4rem; }
+.app-icon { width: 24px; height: 24px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; background: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb; }
+.app-icon.active { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
+
+/* 🔥 ACTION BUTTONS & MODALS */
+.chargeview-page .action-buttons { display: flex; gap: 0.5rem; justify-content: center; }
+.chargeview-page .btn-action { width: 32px; height: 32px; border-radius: 6px; border: none; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+.chargeview-page .btn-edit { background: #dbeafe; color: #1e40af; }
+.chargeview-page .btn-edit:hover { background: #1e40af; color: #fff; }
+
+/* Edit Modal specifics */
+#editChargeModal .section-title { font-size: 0.95rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f3f4f6; }
+#editChargeModal .edit-section { margin-bottom: 1.5rem; }
+#editChargeModal .rex-calc-symbol { background: #f3f4f6; border: 1.5px solid #e5e7eb; border-right: none; color: var(--primary-dark); font-weight: 700; border-radius: 8px 0 0 8px; padding: 0 0.85rem; min-width: 50px; text-align: center; }
+#editChargeModal .rex-checkbox-group { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.85rem 1rem; }
+#editChargeModal .rex-switch-group { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; height: 100%; }
+#editChargeModal .rex-switch { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink: 0; }
+#editChargeModal .rex-switch input { opacity: 0; width: 0; height: 0; }
+#editChargeModal .rex-switch-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #d1d5db; transition: 0.3s; border-radius: 22px; }
+#editChargeModal .rex-switch-slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: 0.3s; border-radius: 50%; }
+#editChargeModal .rex-switch input:checked + .rex-switch-slider { background-color: var(--primary-color); }
+#editChargeModal .rex-switch input:checked + .rex-switch-slider:before { transform: translateX(18px); }
+
+.chargeview-page .success-icon-wrapper { width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.chargeview-page .success-icon-wrapper i { font-size: 2.5rem; color: #059669; }
+

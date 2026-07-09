@@ -1,0 +1,88 @@
+/* ==========================================================================
+   ADD TAX PAGE STYLES
+   ========================================================================== */
+
+/* 🔥 FORM CARD SECTIONS */
+.addtax-page .rex-form-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; overflow: hidden; }
+.addtax-page .rex-form-card-header { background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%); padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; }
+.addtax-page .rex-form-card-header h5 { color: #1A1A1A; font-size: 1.05rem; font-weight: 600; }
+.addtax-page .rex-form-card-header h5 i { color: var(--primary-color); }
+.addtax-page .rex-form-card-body { padding: 1.5rem; }
+
+/* 🔥 FLOATING INPUTS */
+.addtax-page .rex-floating-group .form-control,
+.addtax-page .rex-floating-group .form-select { border: 1.5px solid #e5e7eb; border-radius: 8px; padding: 1rem 0.75rem 0.25rem 0.75rem; height: 58px; font-size: 0.95rem; transition: all 0.3s ease; background-color: #fafafa; }
+.addtax-page .rex-floating-group textarea.form-control { height: auto !important; padding-top: 1.5rem; }
+.addtax-page .rex-floating-group .form-control:focus,
+.addtax-page .rex-floating-group .form-select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 4px rgba(212, 32, 32, 0.1); background-color: #fff; }
+.addtax-page .rex-floating-group label { color: #6b7280; font-weight: 500; padding: 1rem 0.75rem; }
+.addtax-page .rex-floating-group .form-control:focus ~ label,
+.addtax-page .rex-floating-group .form-control:not(:placeholder-shown) ~ label,
+.addtax-page .rex-floating-group .form-select ~ label { color: var(--primary-color); font-size: 0.8rem; font-weight: 600; transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem); }
+
+/* 🔥 PERCENT SYMBOL */
+.rex-percent-symbol { background: #f3f4f6; border: 1.5px solid #e5e7eb; border-left: none; color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; border-radius: 0 8px 8px 0; padding: 0 1rem; }
+
+/* 🔥 PROVINCE CHECKBOX GRID */
+.province-checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; }
+
+.province-item { position: relative; }
+.province-item input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+
+.province-label { display: flex; flex-direction: column; padding: 1rem; border: 2px solid #e5e7eb; border-radius: 10px; background: #fafafa; cursor: pointer; transition: all 0.2s ease; }
+.province-label:hover { border-color: var(--primary-color); background: #fef3f3; }
+
+.province-item input:checked + .province-label { border-color: var(--primary-color); background: #fde8e8; box-shadow: 0 2px 8px rgba(212, 32, 32, 0.15); }
+
+.province-label i { color: var(--primary-color); font-size: 1.25rem; margin-bottom: 0.25rem; }
+.province-label span { font-weight: 600; color: #1A1A1A; font-size: 0.95rem; }
+.province-label small { color: #6b7280; font-size: 0.75rem; margin-top: 0.15rem; }
+
+/* 🔥 FILER OPTION CARDS */
+.filer-option-card { position: relative; }
+.filer-option-card input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+
+.filer-label { display: flex; flex-direction: column; align-items: center; padding: 1.5rem 1rem; border: 2px solid #e5e7eb; border-radius: 12px; background: #fafafa; cursor: pointer; transition: all 0.2s ease; text-align: center; height: 100%; }
+.filer-label:hover { border-color: var(--primary-color); background: #fef3f3; }
+
+.filer-option-card input:checked + .filer-label { border-color: var(--primary-color); background: #fde8e8; box-shadow: 0 4px 12px rgba(212, 32, 32, 0.15); transform: translateY(-2px); }
+
+.filer-label i { font-size: 2rem; margin-bottom: 0.5rem; }
+.filer-label strong { font-size: 1.05rem; color: #1A1A1A; margin-bottom: 0.25rem; }
+.filer-label small { color: #6b7280; font-size: 0.8rem; }
+
+/* 🔥 CHECKBOX GROUPS */
+.addtax-page .rex-checkbox-group { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.85rem 1rem; }
+.addtax-page .rex-checkbox-group .form-check { margin-bottom: 0.4rem; }
+.addtax-page .rex-checkbox-group .form-check:last-child { margin-bottom: 0; }
+.addtax-page .rex-checkbox-group .form-check-input { border: 1.5px solid #d1d5db; width: 1.15em; height: 1.15em; }
+.addtax-page .rex-checkbox-group .form-check-input:checked { background-color: var(--primary-color); border-color: var(--primary-color); }
+.addtax-page .rex-checkbox-group .form-check-input:focus { box-shadow: 0 0 0 3px rgba(212, 32, 32, 0.2); }
+.addtax-page .rex-checkbox-group .form-check-label { font-size: 0.9rem; color: #374151; cursor: pointer; margin-left: 0.25rem; }
+
+/* 🔥 SWITCH TOGGLE */
+.addtax-page .rex-switch-group { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; min-height: 58px; }
+.addtax-page .rex-switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+.addtax-page .rex-switch input { opacity: 0; width: 0; height: 0; }
+.addtax-page .rex-switch-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #d1d5db; transition: 0.3s; border-radius: 24px; }
+.addtax-page .rex-switch-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: 0.3s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.addtax-page .rex-switch input:checked + .rex-switch-slider { background-color: var(--primary-color); }
+.addtax-page .rex-switch input:checked + .rex-switch-slider:before { transform: translateX(20px); }
+.addtax-page .rex-switch input:focus + .rex-switch-slider { box-shadow: 0 0 0 3px rgba(212, 32, 32, 0.2); }
+.addtax-page .rex-switch-label { font-size: 0.9rem; font-weight: 500; color: #374151; }
+
+/* 🔥 FORM ACTIONS */
+.addtax-page .rex-form-actions { display: flex; justify-content: flex-end; gap: 0.75rem; padding: 1.5rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; margin-bottom: 2rem; }
+
+/* 🔥 SUCCESS MODAL */
+.addtax-page .success-icon-wrapper { width: 90px; height: 90px; margin: 0 auto; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: successPulse 0.6s ease; }
+.addtax-page .success-icon-wrapper i { font-size: 3rem; color: #059669; }
+@keyframes successPulse { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 767.98px) {
+    .addtax-page .rex-form-card-body { padding: 1rem; }
+    .addtax-page .rex-form-actions { flex-direction: column-reverse; }
+    .addtax-page .rex-form-actions .btn { width: 100%; }
+    .province-checkbox-grid { grid-template-columns: 1fr; }
+}

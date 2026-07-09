@@ -1,0 +1,115 @@
+/* ==========================================================================
+   USER LIST VIEW STYLES
+   ========================================================================== */
+
+/* 🔥 STAT CARDS */
+.userview-page .stat-card { background: #fff; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; transition: all 0.3s ease; }
+.userview-page .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.userview-page .stat-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+.userview-page .stat-total .stat-icon { background: #dbeafe; color: #1e40af; }
+.userview-page .stat-active .stat-icon { background: #d1fae5; color: #065f46; }
+.userview-page .stat-inactive .stat-icon { background: #fee2e2; color: #991b1b; }
+.userview-page .stat-admin .stat-icon { background: #fef3c7; color: #92400e; }
+.userview-page .stat-value { font-size: 1.75rem; font-weight: 700; color: #1A1A1A; line-height: 1; }
+.userview-page .stat-label { font-size: 0.85rem; color: #6b7280; margin-top: 0.25rem; }
+
+/* 🔥 FILTER, PAGINATION, TABLE */
+.userview-page .filter-card, .userview-page .pagination-controls, .userview-page .table-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; }
+.userview-page .filter-header { background: #f8f9fa; padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+.userview-page .filter-body { padding: 1.5rem; }
+.userview-page .pagination-controls { padding: 1rem 1.5rem; }
+.userview-page .table-card .table thead { background: #f8f9fa; }
+.userview-page .table-card .table thead th { font-size: 0.85rem; font-weight: 600; color: #374151; text-transform: uppercase; padding: 1rem; border: none; }
+.userview-page .table-card .table tbody tr:hover { background: #fef3f3; }
+.userview-page .table-card .table tbody td { padding: 1rem; font-size: 0.9rem; color: #374151; vertical-align: middle; }
+
+/* 🔥 USER CELL */
+.user-cell { display: flex; align-items: center; gap: 0.75rem; }
+.user-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); display: flex; align-items: center; justify-content: center; color: #1e40af; font-size: 1.25rem; flex-shrink: 0; }
+.user-info { display: flex; flex-direction: column; }
+.user-name { font-weight: 600; color: #1A1A1A; font-size: 0.9rem; }
+.user-designation { font-size: 0.75rem; color: #6b7280; }
+
+/* 🔥 ROLE BADGES */
+.role-badge { padding: 0.3rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
+.role-superadmin { background: #fee2e2; color: #991b1b; }
+.role-admin { background: #fef3c7; color: #92400e; }
+.role-office { background: #dbeafe; color: #1e40af; }
+.role-branch { background: #d1fae5; color: #065f46; }
+.role-rider { background: #f3e8ff; color: #6b21a8; }
+.role-customer { background: #fce7f3; color: #9d174d; }
+
+/* 🔥 STATUS BADGES */
+.status-badge { padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
+.status-active { background: #d1fae5; color: #065f46; }
+.status-inactive { background: #fee2e2; color: #991b1b; }
+.status-suspended { background: #fef3c7; color: #92400e; }
+
+/* 🔥 BRANCH/CUSTOMER BADGE */
+.linkage-badge { padding: 0.3rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; display: inline-block; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* 🔥 ACTION BUTTONS */
+.userview-page .action-buttons { display: flex; gap: 0.5rem; justify-content: center; }
+.userview-page .btn-action { width: 32px; height: 32px; border-radius: 6px; border: none; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+.userview-page .btn-view { background: #d1fae5; color: #065f46; }
+.userview-page .btn-view:hover { background: #065f46; color: #fff; }
+.userview-page .btn-edit { background: #dbeafe; color: #1e40af; }
+.userview-page .btn-edit:hover { background: #1e40af; color: #fff; }
+.userview-page .btn-delete { background: #fee2e2; color: #991b1b; }
+.userview-page .btn-delete:hover { background: #991b1b; color: #fff; }
+.userview-page .btn-toggle { background: #fef3c7; color: #92400e; }
+.userview-page .btn-toggle:hover { background: #92400e; color: #fff; }
+
+/* 🔥 VIEW MODAL */
+.view-user-header { display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #f8f9fa 0%, #e5e7eb 100%); border-radius: 12px; }
+.user-avatar-large { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); display: flex; align-items: center; justify-content: center; color: #1e40af; font-size: 3.5rem; flex-shrink: 0; }
+.user-header-info { flex: 1; }
+.user-header-info h4 { color: #1A1A1A; font-weight: 700; }
+.user-meta { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+
+.view-section { margin-bottom: 1.75rem; padding-bottom: 1.75rem; border-bottom: 1px solid #f3f4f6; }
+.view-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.view-section .section-title { font-size: 0.95rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f3f4f6; }
+
+.info-item { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.75rem 1rem; }
+.info-item label { display: block; font-size: 0.75rem; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem; }
+.info-item span { font-size: 0.9rem; color: #1A1A1A; font-weight: 500; }
+.info-item .uid-display { font-family: monospace; font-size: 0.8rem; color: #6b7280; }
+
+.notes-display { background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 1rem; font-size: 0.9rem; color: #78350f; line-height: 1.6; }
+
+/* 🔥 EDIT MODAL */
+#editUserModal .modal-content { border-radius: 12px; border: none; }
+#editUserModal .modal-header { background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%); border-bottom: 1px solid #e5e7eb; padding: 1.25rem 1.5rem; }
+#editUserModal .modal-body { padding: 1.5rem; max-height: 75vh; overflow-y: auto; }
+#editUserModal .edit-section { margin-bottom: 1.75rem; padding-bottom: 1.75rem; border-bottom: 1px solid #f3f4f6; }
+#editUserModal .edit-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+#editUserModal .section-title { font-size: 0.95rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f3f4f6; }
+#editUserModal .form-label { font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 0.4rem; }
+#editUserModal .form-control, #editUserModal .form-select { border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 0.9rem; padding: 0.6rem 0.75rem; }
+#editUserModal .form-control:focus, #editUserModal .form-select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(212, 32, 32, 0.1); }
+
+/* 🔥 DELETE MODAL */
+.delete-icon-wrapper { width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.delete-icon-wrapper i { font-size: 2.5rem; color: #dc2626; }
+
+/* 🔥 SUCCESS ICON */
+.userview-page .success-icon-wrapper { width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.userview-page .success-icon-wrapper i { font-size: 2.5rem; color: #059669; }
+
+/* 🔥 PAGINATION */
+.userview-page .pagination .page-link { border: 1px solid #e5e7eb; color: #374151; padding: 0.5rem 0.85rem; font-size: 0.9rem; margin: 0 0.15rem; border-radius: 6px; }
+.userview-page .pagination .page-item.active .page-link { background: var(--primary-color); border-color: var(--primary-color); color: #fff; }
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 767.98px) {
+    .userview-page .stat-card { padding: 1rem; }
+    .userview-page .stat-value { font-size: 1.5rem; }
+    .userview-page .filter-body { padding: 1rem; }
+    .userview-page .pagination-controls { padding: 0.75rem 1rem; }
+    .userview-page .table-card .table thead th,
+    .userview-page .table-card .table tbody td { padding: 0.75rem 0.5rem; font-size: 0.8rem; }
+    .view-user-header { flex-direction: column; text-align: center; }
+    .user-meta { justify-content: center; }
+}
+

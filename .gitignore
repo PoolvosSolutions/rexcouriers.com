@@ -1,0 +1,30 @@
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# Composer
+/vendor/
+
+# Node
+/node_modules/
+
+# Temporary files
+*.tmp
+*.cache
+
+# Upload folders
+uploads/*
+!uploads/.gitkeep
+
+assets/uploads/*
+!assets/uploads/.gitkeep

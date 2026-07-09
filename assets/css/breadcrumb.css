@@ -1,0 +1,466 @@
+/* ==========================================================================
+   BREADCRUMB SECTION STYLES - REX COURIERS
+   ========================================================================== */
+
+/* 🔥 BREADCRUMB CONTAINER */
+.breadcrumb-section {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #1a1a1a;
+}
+
+/* 🔥 BACKGROUND IMAGE */
+.breadcrumb-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.breadcrumb-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: scale(1.1);
+    animation: zoomOut 1s ease-out;
+}
+
+@keyframes zoomOut {
+    from { transform: scale(1.1); }
+    to { transform: scale(1); }
+}
+
+/* Dithering Effect */
+.image-dither {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(220, 38, 38, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(153, 27, 27, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4) 0%, transparent 70%);
+    mix-blend-mode: overlay;
+}
+
+/* Overlay */
+.breadcrumb-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.85) 0%, rgba(0, 0, 0, 0.75) 100%);
+    opacity: 0.9;
+}
+
+/* 🔥 BREADCRUMB CONTENT */
+.breadcrumb-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 4rem 0;
+}
+
+/* 🔥 HEADER */
+.breadcrumb-header {
+    margin-bottom: 2rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.page-title i {
+    color: #fca5a5;
+    font-size: 2.5rem;
+}
+
+.page-description {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 600px;
+    line-height: 1.6;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* 🔥 BREADCRUMB NAVIGATION */
+.breadcrumb-nav {
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.breadcrumb-trail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.breadcrumb-link {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.breadcrumb-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.breadcrumb-link.home-link {
+    background: rgba(220, 38, 38, 0.3);
+    border-color: rgba(220, 38, 38, 0.5);
+}
+
+.breadcrumb-link.home-link:hover {
+    background: rgba(220, 38, 38, 0.5);
+    border-color: rgba(220, 38, 38, 0.8);
+}
+
+.breadcrumb-link.active {
+    background: rgba(220, 38, 38, 0.8);
+    color: #fff;
+    cursor: default;
+    pointer-events: none;
+}
+
+.breadcrumb-link i {
+    font-size: 0.9rem;
+}
+
+/* Separator */
+.breadcrumb-separator {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    padding: 0 0.25rem;
+}
+
+/* 🔥 QUICK ACTIONS */
+.breadcrumb-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: white;
+}
+
+.action-btn.back-to-home {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.action-btn.back-to-home:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn.track-shipment {
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    border-color: #dc2626;
+}
+
+.action-btn.track-shipment:hover {
+    background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+}
+
+.action-btn.contact-us {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.action-btn.contact-us:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn i {
+    font-size: 1.1rem;
+}
+
+/* 🔥 SCROLL INDICATOR */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    animation: bounce 2s infinite;
+    z-index: 2;
+    cursor: pointer;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+.mouse {
+    width: 26px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    position: relative;
+}
+
+.wheel {
+    width: 4px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scroll 1.5s infinite;
+}
+
+@keyframes scroll {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(15px);
+    }
+}
+
+/* 🔥 RESPONSIVE DESIGN */
+
+/* Large Tablets & Small Laptops */
+@media (max-width: 1024px) {
+    .breadcrumb-section {
+        min-height: 350px;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+    }
+    
+    .page-description {
+        font-size: 1.1rem;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    .breadcrumb-section {
+        min-height: 300px;
+        padding: 3rem 0;
+    }
+    
+    .breadcrumb-content {
+        padding: 2.5rem 0;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .page-title i {
+        font-size: 2rem;
+    }
+    
+    .page-description {
+        font-size: 1rem;
+    }
+    
+    .breadcrumb-actions {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .scroll-indicator {
+        display: none;
+    }
+}
+
+/* Mobile Phones */
+@media (max-width: 576px) {
+    .breadcrumb-section {
+        min-height: 280px;
+        padding: 2.5rem 0;
+    }
+    
+    .breadcrumb-content {
+        padding: 2rem 0;
+    }
+    
+    .page-title {
+        font-size: 1.75rem;
+    }
+    
+    .page-description {
+        font-size: 0.95rem;
+    }
+    
+    .breadcrumb-trail {
+        gap: 0.25rem;
+    }
+    
+    .breadcrumb-link {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.85rem;
+    }
+    
+    .breadcrumb-separator {
+        font-size: 0.7rem;
+    }
+    
+    .action-btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 375px) {
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .breadcrumb-link {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* 🔥 ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce) {
+    .breadcrumb-image,
+    .breadcrumb-header,
+    .breadcrumb-nav,
+    .breadcrumb-actions,
+    .scroll-indicator,
+    .wheel {
+        animation: none;
+    }
+}
+
+/* 🔥 PRINT STYLES */
+@media print {
+    .breadcrumb-section {
+        background: white !important;
+        color: black !important;
+        min-height: auto;
+    }
+    
+    .breadcrumb-background,
+    .scroll-indicator {
+        display: none !important;
+    }
+    
+    .breadcrumb-content {
+        padding: 1rem 0;
+    }
+    
+    .page-title,
+    .breadcrumb-link {
+        color: black !important;
+    }
+}

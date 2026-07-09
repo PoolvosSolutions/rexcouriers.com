@@ -1,0 +1,139 @@
+/* ==========================================================================
+   UNDERTAKING LIST VIEW STYLES
+   ========================================================================== */
+
+/* 🔥 STAT CARDS */
+.undertakingview-page .stat-card { background: #fff; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; transition: all 0.3s ease; }
+.undertakingview-page .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.undertakingview-page .stat-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+.undertakingview-page .stat-total .stat-icon { background: #dbeafe; color: #1e40af; }
+.undertakingview-page .stat-active .stat-icon { background: #d1fae5; color: #065f46; }
+.undertakingview-page .stat-mandatory .stat-icon { background: #fee2e2; color: #991b1b; }
+.undertakingview-page .stat-draft .stat-icon { background: #fef3c7; color: #92400e; }
+.undertakingview-page .stat-value { font-size: 1.75rem; font-weight: 700; color: #1A1A1A; line-height: 1; }
+.undertakingview-page .stat-label { font-size: 0.85rem; color: #6b7280; margin-top: 0.25rem; }
+
+/* 🔥 FILTER, PAGINATION, TABLE */
+.undertakingview-page .filter-card, .undertakingview-page .pagination-controls, .undertakingview-page .table-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb; }
+.undertakingview-page .filter-header { background: #f8f9fa; padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+.undertakingview-page .filter-body { padding: 1.5rem; }
+.undertakingview-page .pagination-controls { padding: 1rem 1.5rem; }
+.undertakingview-page .table-card .table thead { background: #f8f9fa; }
+.undertakingview-page .table-card .table thead th { font-size: 0.85rem; font-weight: 600; color: #374151; text-transform: uppercase; padding: 1rem; border: none; }
+.undertakingview-page .table-card .table tbody tr:hover { background: #fef3f3; }
+.undertakingview-page .table-card .table tbody td { padding: 1rem; font-size: 0.9rem; color: #374151; vertical-align: middle; }
+
+/* 🔥 TITLE & VERSION */
+.title-version { display: flex; flex-direction: column; gap: 0.15rem; }
+.title-version .title-main { font-weight: 600; color: #1A1A1A; font-size: 0.95rem; }
+.title-version .title-version-tag { font-size: 0.75rem; color: #6b7280; font-family: monospace; }
+
+/* 🔥 TYPE BADGES */
+.type-badge { padding: 0.3rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
+.type-customer { background: #dbeafe; color: #1e40af; }
+.type-staff { background: #f3e8ff; color: #6b21a8; }
+.type-carrier-specific { background: #ffedd5; color: #9a3412; }
+.type-customs { background: #fce7f3; color: #9d174d; }
+.type-high-value { background: #fef3c7; color: #92400e; }
+.type-fragile { background: #ccfbf1; color: #0f766e; }
+.type-dangerous-goods { background: #fee2e2; color: #991b1b; }
+
+/* 🔥 CATEGORY BADGES */
+.category-badge { padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+
+/* 🔥 ACCEPTANCE BADGES */
+.acceptance-badge { padding: 0.3rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
+.acceptance-checkbox { background: #d1fae5; color: #065f46; }
+.acceptance-digital-signature { background: #dbeafe; color: #1e40af; }
+.acceptance-physical-signature { background: #fef3c7; color: #92400e; }
+.acceptance-otp-verification { background: #f3e8ff; color: #6b21a8; }
+
+/* 🔥 MANDATORY BADGE */
+.mandatory-badge { padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.2rem; }
+.mandatory-yes { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+.mandatory-no { background: #f3f4f6; color: #6b7280; border: 1px solid #d1d5db; }
+
+/* 🔥 DATE STATUS */
+.date-status { display: flex; flex-direction: column; gap: 0.15rem; }
+.date-status .date-main { font-size: 0.85rem; font-weight: 600; color: #1A1A1A; }
+.date-status .date-range { font-size: 0.75rem; color: #6b7280; }
+.date-status-badge { padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; display: inline-block; margin-top: 0.25rem; }
+.date-status-badge.active-now { background: #d1fae5; color: #065f46; }
+.date-status-badge.upcoming { background: #dbeafe; color: #1e40af; }
+.date-status-badge.expired { background: #fee2e2; color: #991b1b; }
+.date-status-badge.ongoing { background: #f3f4f6; color: #4b5563; }
+
+/* 🔥 APPROVAL BADGES */
+.approval-badge { padding: 0.3rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
+.approval-approved { background: #d1fae5; color: #065f46; }
+.approval-pending { background: #fef3c7; color: #92400e; }
+.approval-rejected { background: #fee2e2; color: #991b1b; }
+
+/* 🔥 STATUS BADGES */
+.badge-status { padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
+.badge-active { background: #d1fae5; color: #065f46; }
+.badge-draft { background: #fef3c7; color: #92400e; }
+.badge-inactive { background: #fee2e2; color: #991b1b; }
+.badge-archived { background: #f3f4f6; color: #4b5563; }
+
+/* 🔥 ACTION BUTTONS */
+.undertakingview-page .action-buttons { display: flex; gap: 0.5rem; justify-content: center; }
+.undertakingview-page .btn-action { width: 32px; height: 32px; border-radius: 6px; border: none; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+.undertakingview-page .btn-edit { background: #dbeafe; color: #1e40af; }
+.undertakingview-page .btn-edit:hover { background: #1e40af; color: #fff; }
+.undertakingview-page .btn-preview { background: #d1fae5; color: #065f46; }
+.undertakingview-page .btn-preview:hover { background: #065f46; color: #fff; }
+.undertakingview-page .btn-archive { background: #f3f4f6; color: #4b5563; }
+.undertakingview-page .btn-archive:hover { background: #4b5563; color: #fff; }
+
+/* 🔥 EDIT MODAL */
+#editUndertakingModal .modal-content { border-radius: 12px; border: none; }
+#editUndertakingModal .modal-header { background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%); border-bottom: 1px solid #e5e7eb; padding: 1.25rem 1.5rem; }
+#editUndertakingModal .modal-body { padding: 1.5rem; max-height: 75vh; overflow-y: auto; }
+#editUndertakingModal .edit-section { margin-bottom: 1.75rem; padding-bottom: 1.75rem; border-bottom: 1px solid #f3f4f6; }
+#editUndertakingModal .edit-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+#editUndertakingModal .section-title { font-size: 0.95rem; font-weight: 600; color: var(--primary-color); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f3f4f6; }
+
+/* Quill in Edit Modal */
+#editUndertakingEditor { border: 1.5px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+#editUndertakingEditor .ql-toolbar { background: #f8f9fa; border: none; border-bottom: 1px solid #e5e7eb; }
+#editUndertakingEditor .ql-container { border: none; min-height: 300px; font-size: 0.95rem; }
+#editUndertakingEditor .ql-editor { padding: 1rem; line-height: 1.7; }
+
+/* Checkbox Group */
+#editUndertakingModal .rex-checkbox-group { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.85rem 1rem; }
+#editUndertakingModal .rex-checkbox-group .form-check { margin-bottom: 0.4rem; }
+#editUndertakingModal .rex-checkbox-group .form-check:last-child { margin-bottom: 0; }
+#editUndertakingModal .rex-checkbox-group .form-check-input { border: 1.5px solid #d1d5db; }
+#editUndertakingModal .rex-checkbox-group .form-check-input:checked { background-color: var(--primary-color); border-color: var(--primary-color); }
+
+/* 🔥 PREVIEW MODAL */
+.preview-container { max-width: 800px; margin: 0 auto; }
+.preview-header h2 { color: #1A1A1A; font-weight: 700; }
+.preview-declaration { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1.25rem; margin: 1rem 0; border-radius: 4px; font-weight: 600; font-style: italic; line-height: 1.7; }
+.preview-content { line-height: 1.8; color: #374151; }
+.preview-content h1, .preview-content h2, .preview-content h3 { color: #1A1A1A; margin-top: 1.5rem; margin-bottom: 1rem; }
+.preview-content p { margin-bottom: 1rem; }
+.preview-content ul, .preview-content ol { margin-bottom: 1rem; padding-left: 2rem; }
+.preview-content li { margin-bottom: 0.5rem; }
+.preview-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.preview-content table th, .preview-content table td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
+.preview-content table th { background: #f8f9fa; font-weight: 600; }
+
+.preview-acceptance { background: #f0fdf4; border: 2px solid #86efac; border-radius: 8px; padding: 1.25rem; margin-top: 1.5rem; }
+.preview-acceptance h6 { color: #065f46; margin-bottom: 0.75rem; }
+.preview-acceptance .form-check-label { font-weight: 600; color: #065f46; }
+
+/* Success Icon */
+.undertakingview-page .success-icon-wrapper { width: 80px; height: 80px; margin: 0 auto; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.undertakingview-page .success-icon-wrapper i { font-size: 2.5rem; color: #059669; }
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 767.98px) {
+    .undertakingview-page .stat-card { padding: 1rem; }
+    .undertakingview-page .stat-value { font-size: 1.5rem; }
+    .undertakingview-page .filter-body { padding: 1rem; }
+    .undertakingview-page .pagination-controls { padding: 0.75rem 1rem; }
+    .undertakingview-page .table-card .table thead th,
+    .undertakingview-page .table-card .table tbody td { padding: 0.75rem 0.5rem; font-size: 0.8rem; }
+}

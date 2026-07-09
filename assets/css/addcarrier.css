@@ -1,0 +1,253 @@
+/* ==========================================================================
+   ADD CARRIER PARTNER PAGE STYLES
+   ========================================================================== */
+
+/* 🔥 FORM CARD SECTIONS (Reuse from addcustomer.css) */
+.addcarrier-page .rex-form-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.addcarrier-page .rex-form-card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.addcarrier-page .rex-form-card-header h5 {
+    color: #1A1A1A;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.addcarrier-page .rex-form-card-header h5 i {
+    color: var(--primary-color);
+}
+
+.addcarrier-page .rex-form-card-body {
+    padding: 1.5rem;
+}
+
+/* 🔥 FLOATING INPUTS */
+.addcarrier-page .rex-floating-group .form-control,
+.addcarrier-page .rex-floating-group .form-select {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem 0.75rem 0.25rem 0.75rem;
+    height: 58px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+}
+
+.addcarrier-page .rex-floating-group textarea.form-control {
+    height: auto !important;
+    padding-top: 1.5rem;
+}
+
+.addcarrier-page .rex-floating-group .form-control:focus,
+.addcarrier-page .rex-floating-group .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(212, 32, 32, 0.1);
+    background-color: #fff;
+}
+
+.addcarrier-page .rex-floating-group label {
+    color: #6b7280;
+    font-weight: 500;
+    padding: 1rem 0.75rem;
+}
+
+.addcarrier-page .rex-floating-group .form-control:focus ~ label,
+.addcarrier-page .rex-floating-group .form-control:not(:placeholder-shown) ~ label,
+.addcarrier-page .rex-floating-group .form-select ~ label {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+/* 🔥 DIALING CODE */
+.addcarrier-page .rex-dialing-code {
+    background: #f3f4f6;
+    border: 1.5px solid #e5e7eb;
+    border-right: none;
+    color: #1A1A1A;
+    font-weight: 600;
+    border-radius: 8px 0 0 8px;
+    padding: 0 0.75rem;
+}
+
+/* 🔥 SERVICE CHECKBOXES */
+.service-checkboxes {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.service-checkboxes .form-check {
+    margin-bottom: 0.5rem;
+}
+
+.service-checkboxes .form-check:last-child {
+    margin-bottom: 0;
+}
+
+.service-checkboxes .form-check-input {
+    border: 1.5px solid #d1d5db;
+}
+
+.service-checkboxes .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.service-checkboxes .form-check-input:focus {
+    box-shadow: 0 0 0 3px rgba(212, 32, 32, 0.2);
+}
+
+.service-checkboxes .form-check-label {
+    font-size: 0.9rem;
+    color: #374151;
+    cursor: pointer;
+}
+
+/* 🔥 FILE UPLOAD AREA */
+.addcarrier-page .rex-upload-area {
+    border: 2px dashed #d1d5db;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fafafa;
+    min-height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addcarrier-page .rex-upload-area:hover {
+    border-color: var(--primary-color);
+    background: #fef3f3;
+}
+
+.addcarrier-page .rex-upload-area.dragover {
+    border-color: var(--primary-color);
+    background: #fde8e8;
+    transform: scale(1.02);
+}
+
+.addcarrier-page .upload-placeholder i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.addcarrier-page .upload-placeholder p {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+.addcarrier-page .upload-placeholder small {
+    color: #9ca3af;
+}
+
+.addcarrier-page .upload-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.addcarrier-page .upload-preview i {
+    font-size: 2rem;
+}
+
+.addcarrier-page .upload-preview .file-name {
+    font-weight: 600;
+    color: #065f46;
+    font-size: 0.9rem;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.addcarrier-page .upload-preview .btn-remove {
+    background: #fee2e2;
+    border: none;
+    color: #dc2626;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.addcarrier-page .upload-preview .btn-remove:hover {
+    background: #dc2626;
+    color: #fff;
+}
+
+/* 🔥 FORM ACTIONS */
+.addcarrier-page .rex-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid #e5e7eb;
+    margin-bottom: 2rem;
+}
+
+/* 🔥 SUCCESS MODAL */
+.addcarrier-page .success-icon-wrapper {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: successPulse 0.6s ease;
+}
+
+.addcarrier-page .success-icon-wrapper i {
+    font-size: 3rem;
+    color: #059669;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 767.98px) {
+    .addcarrier-page .rex-form-card-body {
+        padding: 1rem;
+    }
+    
+    .addcarrier-page .rex-form-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .addcarrier-page .rex-form-actions .btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,283 @@
+/* ==========================================================================
+   ADD CUSTOMER PAGE STYLES
+   ========================================================================== */
+
+/* 🔥 FORM CARD SECTIONS */
+.rex-form-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.rex-form-card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.rex-form-card-header h5 {
+    color: #1A1A1A;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.rex-form-card-header h5 i {
+    color: var(--primary-color);
+}
+
+.rex-form-card-body {
+    padding: 1.5rem;
+}
+
+/* 🔥 FLOATING INPUTS (Enhanced) */
+.addcustomer-page .rex-floating-group .form-control,
+.addcustomer-page .rex-floating-group .form-select {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem 0.75rem 0.25rem 0.75rem;
+    height: 58px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+}
+
+.addcustomer-page .rex-floating-group textarea.form-control {
+    height: auto !important;
+    padding-top: 1.5rem;
+}
+
+.addcustomer-page .rex-floating-group .form-control:focus,
+.addcustomer-page .rex-floating-group .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(212, 32, 32, 0.1);
+    background-color: #fff;
+}
+
+.addcustomer-page .rex-floating-group label {
+    color: #6b7280;
+    font-weight: 500;
+    padding: 1rem 0.75rem;
+}
+
+.addcustomer-page .rex-floating-group .form-control:focus ~ label,
+.addcustomer-page .rex-floating-group .form-control:not(:placeholder-shown) ~ label,
+.addcustomer-page .rex-floating-group .form-select ~ label {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+/* 🔥 READ-ONLY ACCOUNT NUMBER */
+#accountNumber {
+    background: linear-gradient(135deg, #fef3f3 0%, #fde8e8 100%);
+    color: var(--primary-dark);
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    cursor: not-allowed;
+}
+
+#accountNumber ~ label {
+    color: var(--primary-dark) !important;
+    font-weight: 600 !important;
+}
+
+/* 🔥 VERIFICATION BADGES */
+.rex-verify-group {
+    position: relative;
+}
+
+.verify-badge {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    z-index: 5;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.verify-badge.verified {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.verify-badge.unverified {
+    background: #f3f4f6;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+}
+
+.verify-hint {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* 🔥 DIALING CODE */
+.rex-dialing-code {
+    background: #f3f4f6;
+    border: 1.5px solid #e5e7eb;
+    border-right: none;
+    color: #1A1A1A;
+    font-weight: 600;
+    border-radius: 8px 0 0 8px;
+    padding: 0 0.75rem;
+}
+
+.rex-verify-group .input-group .form-control {
+    border-radius: 0 8px 8px 0 !important;
+}
+
+/* 🔥 FILE UPLOAD AREA */
+.rex-upload-area {
+    border: 2px dashed #d1d5db;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fafafa;
+    min-height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rex-upload-area:hover {
+    border-color: var(--primary-color);
+    background: #fef3f3;
+}
+
+.rex-upload-area.dragover {
+    border-color: var(--primary-color);
+    background: #fde8e8;
+    transform: scale(1.02);
+}
+
+.upload-placeholder i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.upload-placeholder p {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+.upload-placeholder small {
+    color: #9ca3af;
+}
+
+.upload-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.upload-preview i {
+    font-size: 2rem;
+}
+
+.upload-preview .file-name {
+    font-weight: 600;
+    color: #065f46;
+    font-size: 0.9rem;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.upload-preview .btn-remove {
+    background: #fee2e2;
+    border: none;
+    color: #dc2626;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.upload-preview .btn-remove:hover {
+    background: #dc2626;
+    color: #fff;
+}
+
+/* 🔥 FORM ACTIONS */
+.rex-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid #e5e7eb;
+    margin-bottom: 2rem;
+}
+
+/* 🔥 SUCCESS MODAL */
+.success-icon-wrapper {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: successPulse 0.6s ease;
+}
+
+.success-icon-wrapper i {
+    font-size: 3rem;
+    color: #059669;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 767.98px) {
+    .rex-form-card-body {
+        padding: 1rem;
+    }
+    
+    .rex-form-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .rex-form-actions .btn {
+        width: 100%;
+    }
+    
+    .verify-badge {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.5rem;
+    }
+}
