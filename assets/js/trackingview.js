@@ -84,21 +84,40 @@ window.initTrackingView = function() {
 // ============================================
 // 🔥 LOAD CARRIERS
 // ============================================
+// ============================================
+// 🔥 LOAD CARRIERS
+// ============================================
 async function loadCarriers() {
     try {
         const carriers = await FirebaseDB.getList('carriers');
         carriersList = carriers.filter(c => c.status === 'Active');
         
+        // Filter dropdown
         const $filterSelect = $('#filterCarrier');
         $filterSelect.empty().append('<option value="">All Carriers</option>');
         carriersList.forEach(c => {
             $filterSelect.append(`<option value="${c.id}">${c.carrierName}</option>`);
         });
         
+        // Update status modal dropdown
         const $updateSelect = $('#newCarrier');
         $updateSelect.empty().append('<option value="" disabled selected>Select Carrier</option>');
         carriersList.forEach(c => {
             $updateSelect.append(`<option value="${c.id}" data-name="${c.carrierName}">${c.carrierName} (${c.carrierCode || ''})</option>`);
+        });
+        
+        // Intransit carrier dropdown
+        const $intransitSelect = $('#intransitCarrier');
+        $intransitSelect.empty().append('<option value="" disabled selected>Select Carrier</option>');
+        carriersList.forEach(c => {
+            $intransitSelect.append(`<option value="${c.id}" data-name="${c.carrierName}">${c.carrierName} (${c.carrierCode || ''})</option>`);
+        });
+        
+        // Assign carrier modal dropdown
+        const $assignSelect = $('#assignCarrierSelect');
+        $assignSelect.empty().append('<option value="" disabled selected>Select Carrier</option>');
+        carriersList.forEach(c => {
+            $assignSelect.append(`<option value="${c.id}" data-name="${c.carrierName}">${c.carrierName} (${c.carrierCode || ''})</option>`);
         });
         
         console.log("✅ Loaded", carriersList.length, "carriers");
@@ -106,6 +125,8 @@ async function loadCarriers() {
         console.error("❌ Error loading carriers:", error);
     }
 }
+
+
 
 // ============================================
 // 🔥 LOAD SHIPMENTS
@@ -144,19 +165,24 @@ function updateStats() {
 // ============================================
 // 🔥 FILTERS
 // ============================================
+
+// ============================================
+// 🔥 FILTERS
+// ============================================
 function setupFilters() {
-    $('#searchInput').off('input').on('input', debounce(applyFilters, 300));
+    $('#searchInput, #searchReceipt').off('input').on('input', debounce(applyFilters, 300));
     $('#filterStatus, #filterCarrier, #filterServiceType').off('change').on('change', applyFilters);
     $('#filterDateFrom, #filterDateTo').off('change').on('change', applyFilters);
     
     $('#btnClearFilters').off('click').on('click', function() {
-        $('#searchInput, #filterStatus, #filterCarrier, #filterServiceType, #filterDateFrom, #filterDateTo').val('');
+        $('#searchInput, #searchReceipt, #filterStatus, #filterCarrier, #filterServiceType, #filterDateFrom, #filterDateTo').val('');
         applyFilters();
     });
 }
 
 function applyFilters() {
     const search = $('#searchInput').val().toLowerCase().trim();
+    const searchReceipt = $('#searchReceipt').val().toLowerCase().trim();
     const status = $('#filterStatus').val();
     const carrier = $('#filterCarrier').val();
     const serviceType = $('#filterServiceType').val();
@@ -164,6 +190,7 @@ function applyFilters() {
     const dateTo = $('#filterDateTo').val();
 
     filteredShipments = allShipments.filter(s => {
+        // Search (AWB, PI, customer name, destination)
         if (search) {
             const searchFields = [
                 s.awbNumber, s.piNumber, 
@@ -173,6 +200,13 @@ function applyFilters() {
             ].map(f => (f || '').toLowerCase());
             if (!searchFields.some(f => f.includes(search))) return false;
         }
+        
+        // Search by carrier receipt number
+        if (searchReceipt) {
+            const receipt = (s.carrierReceiptNumber || '').toLowerCase();
+            if (!receipt.includes(searchReceipt)) return false;
+        }
+        
         if (status && s.status !== status) return false;
         if (carrier && s.carrierId !== carrier) return false;
         if (serviceType && s.serviceType !== serviceType) return false;
@@ -185,6 +219,13 @@ function applyFilters() {
     renderTable();
     renderPagination();
 }
+
+
+
+
+// ============================================
+// 🔥 RENDER TABLE
+// ============================================
 
 // ============================================
 // 🔥 RENDER TABLE
@@ -215,6 +256,7 @@ function renderTable() {
     pageShipments.forEach(s => {
         const awb = s.awbNumber || '-';
         const pi = s.piNumber || '-';
+        const receipt = s.carrierReceiptNumber || '';
         const date = s.bookingDate ? formatDate(s.bookingDate) : '-';
         const customerName = s.shipper?.name || '-';
         const customerAccount = s.accountNumber || '';
@@ -226,11 +268,17 @@ function renderTable() {
         const carrierIcon = s.carrierId ? 'bi-truck' : 'bi-truck-front';
         const carrierBadge = `<span class="carrier-badge ${carrierClass}"><i class="bi ${carrierIcon}"></i> ${carrierName}</span>`;
         
+        // Carrier Receipt Cell
+        const receiptCell = receipt ? 
+            `<div class="receipt-cell">
+                <span class="receipt-number">${receipt}</span>
+                <small class="text-muted">${carrierName}</small>
+            </div>` : 
+            '<span class="text-muted fst-italic">Not Assigned</span>';
+        
         const status = s.status || 'Booked';
         const statusConfig = STATUS_CONFIG[status] || STATUS_CONFIG['Booked'];
         const statusBadge = `<span class="status-badge ${statusConfig.color}"><i class="bi ${statusConfig.icon}"></i> ${statusConfig.label}</span>`;
-        
-        const lastUpdate = s.lastUpdated ? formatDateTime(s.lastUpdated) : '-';
 
         const row = `
             <tr>
@@ -240,6 +288,7 @@ function renderTable() {
                         <span class="pi-number">PI: ${pi}</span>
                     </div>
                 </td>
+                <td>${receiptCell}</td>
                 <td><small>${date}</small></td>
                 <td>
                     <span class="customer-name">${customerName}</span>
@@ -251,7 +300,6 @@ function renderTable() {
                 </td>
                 <td>${carrierBadge}</td>
                 <td>${statusBadge}</td>
-                <td><small>${lastUpdate}</small></td>
                 <td class="text-center pe-4">
                     <div class="action-buttons">
                         <button class="btn-action btn-view" onclick="viewShipment('${s.id}')" title="View Details">
@@ -263,9 +311,9 @@ function renderTable() {
                         <button class="btn-action btn-assign-carrier" onclick="assignCarrier('${s.id}')" title="Assign Carrier">
                             <i class="bi bi-truck"></i>
                         </button>
-                         <button class="btn-action btn-print" onclick="printShipment('${s.id}')" title="Print AWB / PI">
-        <i class="bi bi-printer-fill"></i>
-    </button>                        
+                        <button class="btn-action btn-print" onclick="printShipment('${s.id}')" title="Print AWB / PI">
+                            <i class="bi bi-printer-fill"></i>
+                        </button>                        
                         <button class="btn-action btn-print-status" onclick="printStatusReport('${s.id}')" title="Print Status Report">
                             <i class="bi bi-file-earmark-pdf"></i>
                         </button>
@@ -276,6 +324,8 @@ function renderTable() {
         $tbody.append(row);
     });
 }
+
+
 
 // ============================================
 // 🔥 PAGINATION
@@ -322,14 +372,26 @@ function renderPagination() {
 // ============================================
 // 🔥 UPDATE STATUS MODAL SETUP
 // ============================================
+// ============================================
+// 🔥 UPDATE STATUS MODAL SETUP
+// ============================================
 function setupUpdateStatusModal() {
-    // 🔥 FIX: Use .off().on() to prevent duplicate handlers
+    console.log("🔧 Setting up update status modal...");
+    
+    // Bind save button
     $('#btnSaveStatus').off('click').on('click', saveStatusUpdate);
     
+    // 🔥 CRITICAL: Bind status change handler
     $('#newStatus').off('change').on('change', function() {
         const newStatus = $(this).val();
+        console.log("🔄 Status changed to:", newStatus);
         handleStatusChange(newStatus);
     });
+    
+    // Verify binding
+    console.log("✅ Event handlers bound");
+    console.log("🔍 #newStatus element exists:", $('#newStatus').length);
+    console.log("🔍 #intransitDetails element exists:", $('#intransitDetails').length);
 }
 
 // ============================================
@@ -364,6 +426,9 @@ function setupAssignCarrierModal() {
 // ============================================
 // 🔥 ASSIGN CARRIER FUNCTION
 // ============================================
+// ============================================
+// 🔥 ASSIGN CARRIER FUNCTION (WITH RECEIPT NUMBER)
+// ============================================
 window.assignCarrier = async function(shipmentId) {
     try {
         const shipment = await FirebaseDB.get(`shipments/${shipmentId}`);
@@ -390,6 +455,7 @@ window.assignCarrier = async function(shipmentId) {
                 </span>
                 <small class="text-muted d-block mt-1">
                     Assigned on: ${shipment.carrierAssignedDate ? formatDate(shipment.carrierAssignedDate) : 'Unknown'}
+                    ${shipment.carrierReceiptNumber ? `<br>Receipt: <strong>${shipment.carrierReceiptNumber}</strong>` : ''}
                 </small>
             `);
         } else {
@@ -407,6 +473,8 @@ window.assignCarrier = async function(shipmentId) {
             $select.append(`<option value="${c.id}" data-name="${c.carrierName}" ${selected}>${c.carrierName} (${c.carrierCode || ''})</option>`);
         });
 
+        // Pre-fill receipt number if exists
+        $('#assignCarrierReceipt').val(shipment.carrierReceiptNumber || '');
         $('#carrierAssignmentNotes').val('');
         $('#carrierDetailsPreview').addClass('d-none');
 
@@ -420,13 +488,23 @@ window.assignCarrier = async function(shipmentId) {
 // ============================================
 // 🔥 CONFIRM ASSIGN CARRIER (FIXED)
 // ============================================
+// ============================================
+// 🔥 CONFIRM ASSIGN CARRIER (WITH RECEIPT NUMBER)
+// ============================================
 async function confirmAssignCarrier() {
     const shipmentId = $('#assignShipmentId').val();
     const carrierId = $('#assignCarrierSelect').val();
+    const receiptNumber = $('#assignCarrierReceipt').val().trim();
     const notes = $('#carrierAssignmentNotes').val().trim();
 
     if (!carrierId) {
         showErrorModal('Please select a carrier');
+        return;
+    }
+    
+    if (!receiptNumber) {
+        showErrorModal('Carrier Receipt Number is required');
+        $('#assignCarrierReceipt').focus();
         return;
     }
 
@@ -445,6 +523,7 @@ async function confirmAssignCarrier() {
             carrierId: carrierId,
             carrierName: carrier.carrierName,
             carrierCode: carrier.carrierCode || '',
+            carrierReceiptNumber: receiptNumber,
             assignedDate: new Date().toISOString().split('T')[0],
             assignedTime: new Date().toTimeString().split(' ')[0].substring(0, 5),
             assignedBy: assignedBy,
@@ -455,6 +534,7 @@ async function confirmAssignCarrier() {
             carrierId: carrierId,
             carrierName: carrier.carrierName,
             carrierCode: carrier.carrierCode || '',
+            carrierReceiptNumber: receiptNumber,
             carrierAssignedDate: new Date().toISOString(),
             carrierAssignedBy: assignedBy,
             carrierAssignmentNotes: notes || '',
@@ -466,16 +546,14 @@ async function confirmAssignCarrier() {
         };
 
         await FirebaseDB.update(`shipments/${shipmentId}`, updateData);
-        console.log("✅ Carrier assigned successfully");
+        console.log("✅ Carrier assigned successfully with receipt:", receiptNumber);
 
         $('#successAssignAWB').text(currentShipmentData.awbNumber);
-        $('#successAssignCarrier').text(carrier.carrierName);
+        $('#successAssignCarrier').text(`${carrier.carrierName} - ${receiptNumber}`);
         $('#successAssignDate').text(new Date().toLocaleDateString('en-GB'));
 
-        // 🔥 CRITICAL FIX: Use safeHideModal instead of getInstance
         safeHideModal('assignCarrierModal');
         
-        // Wait for modal to fully close before opening next
         setTimeout(() => {
             new bootstrap.Modal(document.getElementById('carrierAssignSuccessModal')).show();
         }, 400);
@@ -488,6 +566,9 @@ async function confirmAssignCarrier() {
         $btn.find('.btn-loader').addClass('d-none');
     }
 }
+
+
+
 
 // ============================================
 // 🔥 UPDATE SHIPMENT STATUS
@@ -551,40 +632,83 @@ window.updateShipmentStatus = async function(shipmentId) {
 // ============================================
 // 🔥 HANDLE STATUS CHANGE (ENHANCED)
 // ============================================
+
+
+// ============================================
+// 🔥 HANDLE STATUS CHANGE (ENHANCED)
+// ============================================
+// ============================================
+// 🔥 HANDLE STATUS CHANGE (DEBUG VERSION)
+// ============================================
 function handleStatusChange(newStatus) {
-    // Hide all conditional sections
-    $('#carrierSection, #intransitDetails, #holdDetails, #podSection, #returnDetails, #lostDetails').addClass('d-none');
+    console.log("🔍 handleStatusChange called with:", newStatus);
+    console.log("🔍 Current shipment data:", currentShipmentData);
     
-    // Show carrier section if changing to Intransit and no carrier assigned
-    if (newStatus === 'Intransit' && !currentShipmentData?.carrierId) {
-        $('#carrierSection').removeClass('d-none');
-    }
+    // Hide all conditional sections first
+    const sectionsToHide = '#carrierSection, #intransitDetails, #holdDetails, #podSection, #returnDetails, #lostDetails';
+    $(sectionsToHide).addClass('d-none');
+    console.log("✅ All sections hidden");
     
-    // Show status-specific sections
+    // Check if Intransit is selected
     if (newStatus === 'Intransit') {
-        $('#intransitDetails').removeClass('d-none');
-        loadQuickReasons('Intransit');
+        console.log("✅ Intransit status detected");
+        
+        // Show Intransit details section
+        const $intransitDetails = $('#intransitDetails');
+        console.log("🔍 #intransitDetails element found:", $intransitDetails.length);
+        
+        if ($intransitDetails.length > 0) {
+            $intransitDetails.removeClass('d-none');
+            console.log("✅ #intransitDetails section shown");
+            
+            // Load quick reasons
+            loadQuickReasons('Intransit');
+            
+            // Pre-fill carrier if already assigned
+            if (currentShipmentData?.carrierId) {
+                console.log("✅ Pre-filling carrier:", currentShipmentData.carrierId);
+                $('#intransitCarrier').val(currentShipmentData.carrierId);
+                $('#carrierReceiptNumber').val(currentShipmentData.carrierReceiptNumber || '');
+            } else {
+                console.log("⚠️ No carrier assigned, showing carrier selection");
+            }
+        } else {
+            console.error("❌ #intransitDetails element NOT FOUND in DOM!");
+            console.error("❌ Please check if the HTML section exists in tracking.php");
+            
+            // Show error to user
+            showErrorModal('InTransit details section is missing. Please refresh the page.');
+        }
     } else if (newStatus === 'Hold') {
+        console.log("✅ Hold status detected");
         $('#holdDetails').removeClass('d-none');
         loadQuickReasons('Hold');
     } else if (newStatus === 'Delivered') {
+        console.log("✅ Delivered status detected");
         $('#podSection').removeClass('d-none');
         loadQuickReasons('Delivered');
     } else if (newStatus === 'Returned') {
+        console.log("✅ Returned status detected");
         $('#returnDetails').removeClass('d-none');
         loadQuickReasons('Returned');
     } else if (newStatus === 'Lost') {
+        console.log("✅ Lost status detected");
         $('#lostDetails').removeClass('d-none');
         loadQuickReasons('Lost');
     } else if (newStatus === 'Destroyed') {
+        console.log("✅ Destroyed status detected");
         loadQuickReasons('Destroyed');
     } else {
+        console.log("ℹ️ Other status:", newStatus);
         loadQuickReasons(newStatus);
     }
     
     // Update placeholder based on status
     updateReasonPlaceholder(newStatus);
 }
+
+
+
 
 // ============================================
 // 🔥 LOAD QUICK REASONS
@@ -751,6 +875,9 @@ function renderStatusHistory(history) {
 // ============================================
 // 🔥 SAVE STATUS UPDATE (ENHANCED)
 // ============================================
+// ============================================
+// 🔥 SAVE STATUS UPDATE (ENHANCED WITH CARRIER RECEIPT)
+// ============================================
 async function saveStatusUpdate() {
     const shipmentId = $('#updateShipmentId').val();
     const newStatus = $('#newStatus').val();
@@ -772,11 +899,18 @@ async function saveStatusUpdate() {
         return;
     }
     
-    // Status-specific validation
-    if (newStatus === 'Intransit' && !currentShipmentData?.carrierId) {
-        const carrierId = $('#newCarrier').val();
+    // 🔥 CRITICAL: Intransit requires carrier and receipt number
+    if (newStatus === 'Intransit') {
+        const carrierId = currentShipmentData?.carrierId || $('#intransitCarrier').val();
+        const receiptNumber = $('#carrierReceiptNumber').val().trim();
+        
         if (!carrierId) {
-            showErrorModal('Please select a carrier before marking as "In Transit"');
+            showErrorModal('Carrier is mandatory for In Transit status');
+            return;
+        }
+        if (!receiptNumber) {
+            showErrorModal('Carrier Receipt Number is mandatory for In Transit status');
+            $('#carrierReceiptNumber').focus();
             return;
         }
     }
@@ -814,29 +948,48 @@ async function saveStatusUpdate() {
         const adminUser = FirebaseAuth.getCurrentUser();
         const changedBy = adminUser ? adminUser.email : 'unknown';
         
-        // Build history entry with enhanced details
+        // Build history entry
         const historyEntry = {
             status: newStatus,
             date: statusDate,
             time: new Date().toTimeString().split(' ')[0].substring(0, 5),
             changedBy: changedBy,
             changedAt: new Date().toISOString(),
-            reason: reason, // 🔥 Main reason (always present)
+            reason: reason,
             reasonCategory: null,
             details: {}
         };
         
-        // Add carrier info if changing to Intransit
-        if (newStatus === 'Intransit' && !currentShipmentData?.carrierId) {
-            const carrierId = $('#newCarrier').val();
+        const updateData = {
+            status: newStatus,
+            lastUpdated: new Date().toISOString(),
+            statusHistory: [...(currentShipmentData.statusHistory || []), historyEntry]
+        };
+        
+        // 🔥 CRITICAL: Handle Intransit carrier assignment
+        if (newStatus === 'Intransit') {
+            const carrierId = currentShipmentData?.carrierId || $('#intransitCarrier').val();
+            const receiptNumber = $('#carrierReceiptNumber').val().trim();
             const carrier = carriersList.find(c => c.id === carrierId);
+            
+            // Update carrier info
+            updateData.carrierId = carrierId;
+            updateData.carrierName = carrier?.carrierName || '';
+            updateData.carrierCode = carrier?.carrierCode || '';
+            updateData.carrierReceiptNumber = receiptNumber;
+            updateData.carrierAssignedDate = new Date().toISOString();
+            updateData.carrierAssignedBy = changedBy;
+            
+            // Add to history
             historyEntry.carrierId = carrierId;
             historyEntry.carrierName = carrier?.carrierName || '';
+            historyEntry.details.carrierReceiptNumber = receiptNumber;
         }
         
         // Add Intransit details
         if (newStatus === 'Intransit') {
             historyEntry.details = {
+                ...historyEntry.details,
                 currentLocation: $('#currentLocation').val().trim() || null,
                 expectedDeliveryDate: $('#expectedDeliveryDate').val() || null,
                 transitNotes: $('#transitNotes').val().trim() || null
@@ -888,21 +1041,6 @@ async function saveStatusUpdate() {
             historyEntry.details = {
                 destructionReason: reason
             };
-        }
-
-        const updateData = {
-            status: newStatus,
-            lastUpdated: new Date().toISOString(),
-            statusHistory: [...(currentShipmentData.statusHistory || []), historyEntry]
-        };
-        
-        // Update carrier if being assigned now
-        if (newStatus === 'Intransit' && !currentShipmentData?.carrierId) {
-            const carrierId = $('#newCarrier').val();
-            const carrier = carriersList.find(c => c.id === carrierId);
-            updateData.carrierId = carrierId;
-            updateData.carrierName = carrier?.carrierName || '';
-            updateData.carrierCode = carrier?.carrierCode || '';
         }
 
         await FirebaseDB.update(`shipments/${shipmentId}`, updateData);
@@ -1044,6 +1182,19 @@ function buildViewContent(s) {
             </div>
             <div class="view-field mt-2"><span class="label">Address:</span><span class="value">${s.consignee?.address || '-'}</span></div>
         </div>
+
+                <!-- Carrier Information -->
+        ${s.carrierId ? `
+        <div class="view-section">
+            <h6 class="view-section-title"><i class="bi bi-truck me-2"></i>Carrier Information</h6>
+            <div class="view-grid">
+                <div class="view-field"><span class="label">Carrier:</span><span class="value">${s.carrierName || '-'}</span></div>
+                <div class="view-field"><span class="label">Carrier Code:</span><span class="value">${s.carrierCode || '-'}</span></div>
+                <div class="view-field"><span class="label">Receipt Number:</span><span class="value fw-bold text-primary">${s.carrierReceiptNumber || '-'}</span></div>
+                <div class="view-field"><span class="label">Assigned Date:</span><span class="value">${s.carrierAssignedDate ? new Date(s.carrierAssignedDate).toLocaleString() : '-'}</span></div>
+            </div>
+        </div>
+        ` : ''}
 
         <div class="view-section">
             <h6 class="view-section-title"><i class="bi bi-box-seam me-2"></i>Shipment Details</h6>

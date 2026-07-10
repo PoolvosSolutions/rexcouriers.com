@@ -627,18 +627,28 @@ async function saveBookingEdit() {
 // ============================================
 // 🔥 PRINT BOOKING (Opens in new window - placeholder for PDF)
 // ============================================
+// ============================================
+// 🔥 PRINT BOOKING (A4 OPTIMIZED - 2 PAGES WITH BARCODES)
+// ============================================
+// ============================================
+// 🔥 PRINT BOOKING (A4 OPTIMIZED - 2 PAGES WITH BARCODES)
+// ============================================
 window.printBooking = async function(bookingId) {
     try {
+        console.log("🖨️ Loading booking for reprint:", bookingId);
+        
         const booking = await FirebaseDB.get(`shipments/${bookingId}`);
         if (!booking) return showEditErrorModal('Booking not found');
 
         const printContent = buildPrintContent(booking);
         
-        const printWindow = window.open('', '', 'width=900,height=700');
+        const printWindow = window.open('', '', 'width=900,height=1100');
         printWindow.document.write(printContent);
         printWindow.document.close();
         printWindow.focus();
-        setTimeout(() => printWindow.print(), 500);
+        
+        // 🔥 FIX: Use reliable barcode generation with retry logic
+        generateBarcodesInPrintWindow(printWindow, booking);
         
     } catch (error) {
         console.error("❌ Error printing booking:", error);
@@ -646,123 +656,838 @@ window.printBooking = async function(bookingId) {
     }
 };
 
+// ============================================
+// 🔥 GENERATE BARCODES IN PRINT WINDOW (RELIABLE)
+// ============================================
+function generateBarcodesInPrintWindow(printWindow, booking) {
+    let attempts = 0;
+    const maxAttempts = 20;
+    
+    function tryGenerateBarcodes() {
+        attempts++;
+        
+        try {
+            // Check if JsBarcode is loaded
+            if (typeof printWindow.JsBarcode === 'undefined') {
+                if (attempts < maxAttempts) {
+                    console.log(`⏳ Waiting for JsBarcode to load... (attempt ${attempts}/${maxAttempts})`);
+                    setTimeout(tryGenerateBarcodes, 200);
+                    return;
+                } else {
+                    console.error("❌ JsBarcode failed to load after multiple attempts");
+                    return;
+                }
+            }
+            
+            // Check if SVG elements exist
+            const awbSvg = printWindow.document.getElementById('awbBarcode');
+            const piSvg = printWindow.document.getElementById('piBarcode');
+            
+            if (!awbSvg || !piSvg) {
+                console.error("❌ Barcode SVG elements not found");
+                return;
+            }
+            
+            // Generate AWB Barcode (Page 1)
+            printWindow.JsBarcode(awbSvg, booking.awbNumber, {
+                format: "CODE128",
+                width: 2,
+                height: 60,
+                displayValue: false,
+                margin: 5,
+                background: "#ffffff",
+                lineColor: "#000000"
+            });
+            
+            // Generate PI Barcode (Page 2)
+            printWindow.JsBarcode(piSvg, booking.piNumber, {
+                format: "CODE128",
+                width: 2,
+                height: 60,
+                displayValue: false,
+                margin: 5,
+                background: "#ffffff",
+                lineColor: "#000000"
+            });
+            
+            console.log("✅ Barcodes generated successfully");
+            
+        } catch (error) {
+            console.error("❌ Error generating barcodes:", error);
+        }
+    }
+    
+    // Start trying after a short delay
+    setTimeout(tryGenerateBarcodes, 500);
+}
+
+
+
+// ============================================
+// 🔥 BUILD TWO-PAGE PRINT CONTENT (A4 OPTIMIZED)
+// ============================================
 function buildPrintContent(b) {
     const items = b.items || [];
-    const itemsRows = items.map(item => `
-        <tr>
-            <td>${item.sno}</td>
-            <td>${item.name || '-'}</td>
-            <td>${item.hsCode || '-'}</td>
-            <td>${item.origin || '-'}</td>
-            <td>${item.quantity}</td>
-            <td>${parseFloat(item.unitValue || 0).toFixed(2)}</td>
-            <td>${parseFloat(item.subtotal || 0).toFixed(2)}</td>
-        </tr>
-    `).join('');
-
+    
     return `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>AWB: ${b.awbNumber} | PI: ${b.piNumber}</title>
-            <style>
-                body { font-family: Arial, sans-serif; padding: 2rem; color: #1A1A1A; }
-                .header { text-align: center; border-bottom: 3px solid #dc2626; padding-bottom: 1rem; margin-bottom: 2rem; }
-                .header h1 { color: #dc2626; margin: 0; font-size: 2rem; }
-                .header p { margin: 0.25rem 0 0; color: #6b7280; }
-                .numbers { display: flex; justify-content: space-around; background: #f3f4f6; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
-                .number-box { text-align: center; }
-                .number-box .label { font-size: 0.85rem; color: #6b7280; display: block; }
-                .number-box .value { font-size: 1.5rem; font-weight: 700; color: #dc2626; font-family: monospace; }
-                .section { margin-bottom: 1.5rem; }
-                .section h3 { background: #dc2626; color: white; padding: 0.5rem 1rem; margin: 0 0 0.5rem 0; border-radius: 4px; font-size: 1rem; }
-                .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-                .field { padding: 0.25rem 0; }
-                .field .label { font-size: 0.8rem; color: #6b7280; }
-                .field .value { font-weight: 600; }
-                table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
-                th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: left; font-size: 0.85rem; }
-                th { background: #f3f4f6; }
-                .total-box { background: #fef3c7; padding: 1rem; border-radius: 8px; margin-top: 1rem; text-align: right; }
-                .total-box .grand { font-size: 1.5rem; font-weight: 700; color: #dc2626; }
-                .signature { margin-top: 3rem; text-align: center; }
-                .signature-line { border-top: 2px solid #000; width: 300px; margin: 0 auto 0.5rem; }
-                @media print { body { padding: 0.5rem; } }
-            </style>
-        </head>
-        <body>
-            <div class="header">
-                <h1>REX WORLDWIDE COURIER</h1>
-                <p>Air Waybill / Proforma Invoice</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AWB: ${b.awbNumber} | PI: ${b.piNumber}</title>
+    
+    <!-- 🔥 LOAD JsBarcode LIBRARY -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"><\/script>
+    
+    <style>
+        /* 🔥 A4 PAGE SETUP */
+        @page {
+            size: A4 portrait;
+            margin: 10mm;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 9pt;
+            color: #000;
+            line-height: 1.3;
+            background: #fff;
+        }
+        
+        /* Print Actions (hidden when printing) */
+        .print-actions {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f0f0f0;
+            border: 1px dashed #999;
+            border-radius: 4px;
+        }
+        
+        .print-actions button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            font-size: 10pt;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 0 3px;
+        }
+        
+        .print-actions button:hover {
+            background: #333;
+        }
+        
+        .print-actions .hint {
+            font-size: 7pt;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* 🔥 PAGE CONTAINER - A4 SIZE */
+        .page {
+            width: 190mm;
+            min-height: 277mm;
+            max-height: 277mm;
+            padding: 0;
+            position: relative;
+            page-break-after: always;
+            overflow: hidden;
+        }
+        
+        .page:last-child {
+            page-break-after: auto;
+        }
+        
+        /* Header - Compact */
+        .header {
+            text-align: center;
+            border-bottom: 2px double #000;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .header h1 {
+            font-size: 18pt;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            margin-bottom: 2px;
+        }
+        
+        .header .tagline {
+            font-size: 7pt;
+            color: #555;
+            font-style: italic;
+        }
+        
+        .doc-type {
+            display: inline-block;
+            border: 1.5px solid #000;
+            padding: 3px 15px;
+            font-size: 9pt;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            margin-top: 6px;
+            background: #000;
+            color: #fff;
+        }
+        
+        /* Barcode Section - Compact */
+        .barcode-section {
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1.5px solid #000;
+            border-radius: 6px;
+        }
+        
+        .barcode-label {
+            font-size: 7pt;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .barcode-svg {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            max-height: 70px;
+        }
+        
+        .barcode-number {
+            font-size: 12pt;
+            font-weight: 900;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1.5px;
+            margin-top: 5px;
+        }
+        
+        /* Number Box - Compact */
+        .number-box {
+            border: 1.5px solid #000;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f9f9f9;
+        }
+        
+        .number-box .num-label {
+            font-size: 7pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #555;
+        }
+        
+        .number-box .num-value {
+            font-size: 16pt;
+            font-weight: 900;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1.5px;
+            margin-top: 1px;
+        }
+        
+        .number-box .info {
+            text-align: right;
+            font-size: 8pt;
+            line-height: 1.4;
+        }
+        
+        .number-box .info strong {
+            display: inline-block;
+            min-width: 75px;
+            text-align: left;
+        }
+        
+        /* Section */
+        .section {
+            margin-bottom: 10px;
+        }
+        
+        .section h3 {
+            background: #000;
+            color: #fff;
+            padding: 4px 10px;
+            font-size: 8pt;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        
+        /* Grid - Two Column */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .col-box {
+            border: 1px solid #000;
+            padding: 8px 10px;
+        }
+        
+        .col-title {
+            font-size: 8pt;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-bottom: 1px solid #000;
+            padding-bottom: 3px;
+            margin-bottom: 5px;
+        }
+        
+        .field {
+            padding: 2px 0;
+            font-size: 8pt;
+            border-bottom: 1px dotted #ccc;
+        }
+        
+        .field:last-child {
+            border-bottom: none;
+        }
+        
+        .field .label {
+            font-weight: 700;
+            color: #333;
+            font-size: 7pt;
+            text-transform: uppercase;
+            display: inline-block;
+            width: 65px;
+        }
+        
+        .field .value {
+            font-weight: 600;
+            color: #000;
+        }
+        
+        /* Info Row */
+        .info-row {
+            display: flex;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+        }
+        
+        .info-cell {
+            flex: 1;
+            padding: 5px 8px;
+            border-right: 1px solid #000;
+            text-align: center;
+        }
+        
+        .info-cell:last-child {
+            border-right: none;
+        }
+        
+        .info-cell .info-label {
+            font-size: 6pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #555;
+        }
+        
+        .info-cell .info-value {
+            font-size: 9pt;
+            font-weight: 900;
+            margin-top: 2px;
+        }
+        
+        /* Table - Compact */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8pt;
+            margin-top: 3px;
+        }
+        
+        th, td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            text-align: left;
+        }
+        
+        th {
+            background: #000;
+            color: #fff;
+            font-size: 7pt;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        
+        tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+        
+        .amt {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+        
+        /* Total Box - Compact */
+        .total-box {
+            background: #f0f0f0;
+            border: 1.5px solid #000;
+            padding: 8px 12px;
+            margin: 8px 0;
+            text-align: right;
+            font-size: 8pt;
+        }
+        
+        .total-box .grand {
+            font-size: 12pt;
+            font-weight: 900;
+            margin-top: 3px;
+            padding-top: 3px;
+            border-top: 1.5px solid #000;
+        }
+        
+        /* Legal Box (Undertaking/T&C) - Compact */
+        .legal-box {
+            border: 1px solid #000;
+            padding: 8px 10px;
+            margin-top: 10px;
+            font-size: 7.5pt;
+            line-height: 1.35;
+            background: #fafafa;
+        }
+        
+        .legal-box-title {
+            font-weight: 900;
+            font-size: 8pt;
+            text-transform: uppercase;
+            border-bottom: 1px solid #000;
+            padding-bottom: 3px;
+            margin-bottom: 5px;
+        }
+        
+        /* Signature - Compact */
+        .signature {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            gap: 60px;
+        }
+        
+        .sig-box {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .sig-line {
+            border-top: 1.5px solid #000;
+            margin-bottom: 3px;
+            padding-top: 2px;
+            min-height: 35px;
+        }
+        
+        .sig-label {
+            font-size: 8pt;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+        
+        .sig-sub {
+            font-size: 7pt;
+            color: #555;
+            margin-top: 1px;
+        }
+        
+        /* Footer */
+        .page-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding-top: 6px;
+            border-top: 1px solid #000;
+            text-align: center;
+            font-size: 7pt;
+            color: #555;
+        }
+        
+        /* 🔥 ITEMS TABLE - SPACE FOR 5-6 ROWS */
+        .items-section {
+            margin-bottom: 8px;
+        }
+        
+        .items-section table {
+            margin-bottom: 0;
+        }
+        
+        .items-section table tbody tr {
+            height: 22px;
+        }
+        
+        /* Empty rows for space */
+        .empty-row {
+            height: 22px;
+            background: #fff !important;
+        }
+        
+        .empty-row td {
+            border: 1px solid #ddd;
+        }
+        
+        @media print {
+            .print-actions { display: none !important; }
+            body { margin: 0; padding: 0; }
+            .page {
+                width: 190mm;
+                min-height: 277mm;
+                max-height: 277mm;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Print Actions (hidden when printing) -->
+    <div class="print-actions">
+        <button onclick="window.print()">🖨️ Print Document</button>
+        <button onclick="window.close()">✕ Close</button>
+        <div class="hint">💡 Tip: Select "Save as PDF" to download as PDF file</div>
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- 🔥 PAGE 1: AIR WAYBILL (AWB)                 -->
+    <!-- ============================================ -->
+    <div class="page">
+        
+        <!-- Header -->
+        <div class="header">
+            <h1>REX WORLDWIDE COURIER</h1>
+            <div class="tagline">Trusted Global Courier & Logistics Partner</div>
+            <div class="doc-type">AIR WAYBILL (AWB)</div>
+        </div>
+        
+        <!-- AWB Barcode -->
+        <div class="barcode-section">
+            <div class="barcode-label">AWB Number</div>
+            <svg id="awbBarcode" class="barcode-svg"></svg>
+            <div class="barcode-number">${b.awbNumber}</div>
+        </div>
+        
+        <!-- AWB Number Box -->
+        <div class="number-box">
+            <div>
+                <div class="num-label">AWB Number</div>
+                <div class="num-value">${b.awbNumber}</div>
             </div>
-            
-            <div class="numbers">
-                <div class="number-box"><span class="label">AWB Number</span><span class="value">${b.awbNumber || '-'}</span></div>
-                <div class="number-box"><span class="label">PI Number</span><span class="value">${b.piNumber || '-'}</span></div>
-                <div class="number-box"><span class="label">Booking Date</span><span class="value">${b.bookingDate || '-'}</span></div>
-                <div class="number-box"><span class="label">Status</span><span class="value">${b.status || '-'}</span></div>
+            <div class="info">
+                <strong>Booking Date:</strong> ${b.bookingDate}<br>
+                <strong>Service:</strong> ${b.serviceType}<br>
+                <strong>Payment:</strong> ${b.paymentMode}
             </div>
-            
+        </div>
+        
+        <!-- Shipper + Consignee -->
+        <div class="grid">
+            <div class="col-box">
+                <div class="col-title">Shipper (Sender)</div>
+                <div class="field"><span class="label">Name:</span> <span class="value">${b.shipper?.name || '-'}</span></div>
+                <div class="field"><span class="label">Company:</span> <span class="value">${b.shipper?.company || '-'}</span></div>
+                <div class="field"><span class="label">Contact:</span> <span class="value">${b.shipper?.contact || '-'}</span></div>
+                <div class="field"><span class="label">City:</span> <span class="value">${b.shipper?.city || '-'}</span></div>
+                <div class="field"><span class="label">Country:</span> <span class="value">${b.shipper?.country || '-'}</span></div>
+                <div class="field"><span class="label">CNIC:</span> <span class="value">${b.shipper?.cnic || '-'}</span></div>
+                ${b.accountNumber ? `<div class="field"><span class="label">Account #:</span> <span class="value">${b.accountNumber}</span></div>` : ''}
+            </div>
+            <div class="col-box">
+                <div class="col-title">Consignee (Receiver)</div>
+                <div class="field"><span class="label">Name:</span> <span class="value">${b.consignee?.name || '-'}</span></div>
+                <div class="field"><span class="label">Company:</span> <span class="value">${b.consignee?.company || '-'}</span></div>
+                <div class="field"><span class="label">Contact:</span> <span class="value">${b.consignee?.contact || '-'}</span></div>
+                <div class="field"><span class="label">Destination:</span> <span class="value">${b.consignee?.destination || '-'}</span></div>
+                <div class="field"><span class="label">City:</span> <span class="value">${b.consignee?.city || '-'}</span></div>
+                <div class="field"><span class="label">Country:</span> <span class="value">${b.consignee?.country || '-'}</span></div>
+                <div class="field"><span class="label">Address:</span> <span class="value">${b.consignee?.address || '-'}</span></div>
+            </div>
+        </div>
+        
+        <!-- Shipment Details -->
+        <div class="info-row">
+            <div class="info-cell">
+                <div class="info-label">Pieces</div>
+                <div class="info-value">${b.shipment?.pieces || '-'}</div>
+            </div>
+            <div class="info-cell">
+                <div class="info-label">Actual Weight</div>
+                <div class="info-value">${b.shipment?.weight || 0} KG</div>
+            </div>
+            <div class="info-cell">
+                <div class="info-label">Chargeable Weight</div>
+                <div class="info-value">${b.shipment?.chargeableWeight || 0} KG</div>
+            </div>
+            <div class="info-cell">
+                <div class="info-label">Shipment Type</div>
+                <div class="info-value">${b.shipment?.shipmentType || '-'}</div>
+            </div>
+        </div>
+        
+        <!-- Charges Summary -->
+        <div class="section">
+            <h3>Charges Summary</h3>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Base Shipment Charges</td>
+                        <td class="amt">PKR ${parseFloat(b.shipmentCharges || 0).toFixed(2)}</td>
+                    </tr>
+                    ${(b.additionalCharges || []).map(ch => `
+                        <tr>
+                            <td>${ch.chargeName || 'Additional Charge'}</td>
+                            <td class="amt">PKR ${parseFloat(ch.amount || 0).toFixed(2)}</td>
+                        </tr>
+                    `).join('')}
+                    <tr style="background:#e5e5e5; font-weight:700;">
+                        <td>Subtotal</td>
+                        <td class="amt">PKR ${parseFloat(b.subtotal || 0).toFixed(2)}</td>
+                    </tr>
+                    ${(b.taxes || []).map(tax => `
+                        <tr>
+                            <td>${tax.name} (${tax.rate}%)</td>
+                            <td class="amt">PKR ${parseFloat(tax.amount || 0).toFixed(2)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Grand Total -->
+        <div class="total-box">
+            <div>Subtotal: PKR ${parseFloat(b.subtotal || 0).toFixed(2)} | Tax: PKR ${parseFloat(b.taxAmount || 0).toFixed(2)}</div>
+            <div class="grand">GRAND TOTAL: PKR ${parseFloat(b.grandTotal || 0).toFixed(2)}</div>
+        </div>
+        
+        <!-- Undertaking (Footer) -->
+        <div class="legal-box">
+            <div class="legal-box-title">Undertaking Declaration</div>
+            <div>
+                I/We declare that the information provided above is true and correct. The goods are of Pakistan origin 
+                and do not contain any prohibited items (drugs, contraband, cash, passport, antique, or any item 
+                unacceptable for carriage). REX Worldwide Courier is not liable for indirect, consequential, or 
+                business losses arising from delay, loss, or damage. Sender is responsible for insuring the shipment. 
+                Uninsured shipments travel at sender's risk and are subject to limited carrier liability only.
+            </div>
+        </div>
+        
+        <!-- Page Footer -->
+        <div class="page-footer">
+            REX WORLDWIDE COURIER - Air Waybill | AWB: ${b.awbNumber} | Page 1 of 2
+        </div>
+        
+    </div>
+    
+    <!-- ============================================ -->
+    <!-- 🔥 PAGE 2: PROFORMA INVOICE (PI)             -->
+    <!-- ============================================ -->
+    <div class="page">
+        
+        <!-- Header -->
+        <div class="header">
+            <h1>REX WORLDWIDE COURIER</h1>
+            <div class="tagline">Trusted Global Courier & Logistics Partner</div>
+            <div class="doc-type">PROFORMA INVOICE (PI)</div>
+        </div>
+        
+        <!-- PI Barcode -->
+        <div class="barcode-section">
+            <div class="barcode-label">PI Number</div>
+            <svg id="piBarcode" class="barcode-svg"></svg>
+            <div class="barcode-number">${b.piNumber}</div>
+        </div>
+        
+        <!-- PI Number Box -->
+        <div class="number-box">
+            <div>
+                <div class="num-label">PI Number</div>
+                <div class="num-value">${b.piNumber}</div>
+            </div>
+            <div class="info">
+                <strong>Booking Date:</strong> ${b.bookingDate}<br>
+                <strong>AWB Reference:</strong> ${b.awbNumber}
+            </div>
+        </div>
+        
+        <!-- Shipper + Consignee (Limited) -->
+        <div class="grid">
+            <div class="col-box">
+                <div class="col-title">Shipper</div>
+                <div class="field"><span class="label">Name:</span> <span class="value">${b.shipper?.name || '-'}</span></div>
+                <div class="field"><span class="label">Company:</span> <span class="value">${b.shipper?.company || '-'}</span></div>
+                <div class="field"><span class="label">Contact:</span> <span class="value">${b.shipper?.contact || '-'}</span></div>
+                <div class="field"><span class="label">City:</span> <span class="value">${b.shipper?.city || '-'}</span></div>
+                <div class="field"><span class="label">Country:</span> <span class="value">${b.shipper?.country || '-'}</span></div>
+            </div>
+            <div class="col-box">
+                <div class="col-title">Consignee</div>
+                <div class="field"><span class="label">Name:</span> <span class="value">${b.consignee?.name || '-'}</span></div>
+                <div class="field"><span class="label">Company:</span> <span class="value">${b.consignee?.company || '-'}</span></div>
+                <div class="field"><span class="label">Contact:</span> <span class="value">${b.consignee?.contact || '-'}</span></div>
+                <div class="field"><span class="label">Destination:</span> <span class="value">${b.consignee?.destination || '-'}</span></div>
+                <div class="field"><span class="label">Country:</span> <span class="value">${b.consignee?.country || '-'}</span></div>
+            </div>
+        </div>
+        
+        <!-- Shipment Info (Weight Only) -->
+        <div class="info-row">
+            <div class="info-cell">
+                <div class="info-label">Pieces</div>
+                <div class="info-value">${b.shipment?.pieces || '-'}</div>
+            </div>
+            <div class="info-cell">
+                <div class="info-label">Actual Weight</div>
+                <div class="info-value">${b.shipment?.weight || 0} KG</div>
+            </div>
+            <div class="info-cell">
+                <div class="info-label">Chargeable Weight</div>
+                <div class="info-value">${b.shipment?.chargeableWeight || 0} KG</div>
+            </div>
+            <div class="info-cell">
+                <div class="info-label">Shipment Type</div>
+                <div class="info-value">${b.shipment?.shipmentType || '-'}</div>
+            </div>
+        </div>
+        
+        <!-- Items Table - WITH SPACE FOR 5-6 ROWS -->
+        <div class="items-section">
             <div class="section">
-                <h3>Shipper Details</h3>
-                <div class="grid">
-                    <div class="field"><div class="label">Name</div><div class="value">${b.shipper?.name || '-'}</div></div>
-                    <div class="field"><div class="label">Company</div><div class="value">${b.shipper?.company || '-'}</div></div>
-                    <div class="field"><div class="label">City</div><div class="value">${b.shipper?.city || '-'}</div></div>
-                    <div class="field"><div class="label">Country</div><div class="value">${b.shipper?.country || '-'}</div></div>
-                    <div class="field"><div class="label">Contact</div><div class="value">${b.shipper?.contact || '-'}</div></div>
-                    <div class="field"><div class="label">CNIC</div><div class="value">${b.shipper?.cnic || '-'}</div></div>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h3>Consignee Details</h3>
-                <div class="grid">
-                    <div class="field"><div class="label">Name</div><div class="value">${b.consignee?.name || '-'}</div></div>
-                    <div class="field"><div class="label">Company</div><div class="value">${b.consignee?.company || '-'}</div></div>
-                    <div class="field"><div class="label">Destination</div><div class="value">${b.consignee?.destination || '-'}</div></div>
-                    <div class="field"><div class="label">City</div><div class="value">${b.consignee?.city || '-'}</div></div>
-                    <div class="field"><div class="label">Country</div><div class="value">${b.consignee?.country || '-'}</div></div>
-                    <div class="field"><div class="label">Contact</div><div class="value">${b.consignee?.contact || '-'}</div></div>
-                </div>
-                <div class="field"><div class="label">Address</div><div class="value">${b.consignee?.address || '-'}</div></div>
-            </div>
-            
-            <div class="section">
-                <h3>Shipment Details</h3>
-                <div class="grid">
-                    <div class="field"><div class="label">Pieces</div><div class="value">${b.shipment?.pieces || '-'}</div></div>
-                    <div class="field"><div class="label">Weight</div><div class="value">${b.shipment?.weight || 0} KG</div></div>
-                    <div class="field"><div class="label">Chargeable Weight</div><div class="value">${b.shipment?.chargeableWeight || 0} KG</div></div>
-                    <div class="field"><div class="label">Type</div><div class="value">${b.shipment?.shipmentType || '-'}</div></div>
-                </div>
-            </div>
-            
-            ${items.length > 0 ? `
-            <div class="section">
-                <h3>Items</h3>
+                <h3>Items Details</h3>
                 <table>
-                    <thead><tr><th>S.No</th><th>Item</th><th>HS Code</th><th>Origin</th><th>Qty</th><th>Unit (USD)</th><th>Sub Total (USD)</th></tr></thead>
-                    <tbody>${itemsRows}</tbody>
-                    <tfoot><tr><td colspan="6" style="text-align:right;font-weight:bold;">Items Sub Total:</td><td style="font-weight:bold;">${parseFloat(b.itemsSubtotalUSD || 0).toFixed(2)} USD</td></tr></tfoot>
+                    <thead>
+                        <tr>
+                            <th style="width:30px;">S.No</th>
+                            <th>Item / Goods Description</th>
+                            <th style="width:70px;">HS Code</th>
+                            <th style="width:85px;">Country of Origin</th>
+                            <th style="width:40px;">Qty</th>
+                            <th style="width:75px;">Unit (USD)</th>
+                            <th style="width:85px;">Sub Total (USD)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${items.map(item => `
+                            <tr>
+                                <td>${item.sno}</td>
+                                <td>${item.name || '-'}</td>
+                                <td>${item.hsCode || '-'}</td>
+                                <td>${item.origin}</td>
+                                <td>${item.quantity}</td>
+                                <td class="amt">${parseFloat(item.unitValue || 0).toFixed(2)}</td>
+                                <td class="amt">${parseFloat(item.subtotal || 0).toFixed(2)}</td>
+                            </tr>
+                        `).join('')}
+                        ${(() => {
+                            // Add empty rows to make space for 6 rows total
+                            const emptyRowsNeeded = Math.max(0, 6 - items.length);
+                            let emptyRows = '';
+                            for (let i = 0; i < emptyRowsNeeded; i++) {
+                                emptyRows += `<tr class="empty-row"><td colspan="7">&nbsp;</td></tr>`;
+                            }
+                            return emptyRows;
+                        })()}
+                    </tbody>
+                    <tfoot>
+                        <tr style="background:#e5e5e5; font-weight:700;">
+                            <td colspan="6" style="text-align:right;">Items Sub Total:</td>
+                            <td class="amt">${parseFloat(b.itemsSubtotalUSD || 0).toFixed(2)} USD</td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
-            ` : ''}
-            
-            <div class="total-box">
-                <div>Subtotal: PKR ${parseFloat(b.subtotal || 0).toFixed(2)}</div>
-                <div>Tax: PKR ${parseFloat(b.taxAmount || 0).toFixed(2)}</div>
-                <div class="grand">GRAND TOTAL: PKR ${parseFloat(b.grandTotal || 0).toFixed(2)}</div>
+        </div>
+        
+        <!-- Terms & Conditions (Footer) -->
+        <div class="legal-box">
+            <div class="legal-box-title">Terms & Conditions</div>
+            <div>
+                1. Carrier's standard terms and conditions apply and limit the carrier's liability.<br>
+                2. The Warsaw Convention may apply to international shipments.<br>
+                3. Sender is responsible for insuring the shipment. Uninsured shipments travel at sender's risk.<br>
+                4. Destination custom duty, fines, storage charges, and local taxes are payable by receiver.<br>
+                5. REX Worldwide Courier is not liable for indirect, consequential, or business losses.<br>
+                6. Prohibited items: drugs, contraband, cash, passport, antique, or unacceptable items.<br>
+                7. All claims must be submitted within 30 days with proper documentation.<br>
+                8. This invoice is valid for customs declaration purposes.
             </div>
-            
-            <div class="signature">
-                <div class="signature-line"></div>
-                <p>Shipper Signature</p>
+        </div>
+        
+        <!-- Signatures -->
+        <div class="signature">
+            <div class="sig-box">
+                <div class="sig-line"></div>
+                <div class="sig-label">Shipper Signature</div>
+                <div class="sig-sub">Name: _________________________</div>
+                <div class="sig-sub">Date: _________________________</div>
             </div>
-        </body>
-        </html>
+            <div class="sig-box">
+                <div class="sig-line"></div>
+                <div class="sig-label">Authorized Signature</div>
+                <div class="sig-sub">REX Worldwide Courier</div>
+                <div class="sig-sub">Date: _________________________</div>
+            </div>
+        </div>
+        
+        <!-- Page Footer -->
+        <div class="page-footer">
+            Generated: ${new Date().toLocaleString()} | REX WORLDWIDE COURIER - Proforma Invoice | PI: ${b.piNumber} | Page 2 of 2
+        </div>
+        
+    </div>
+    
+    <!-- 🔥 BARCODE GENERATION SCRIPT -->
+    <script>
+        window.onload = function() {
+            try {
+                if (typeof JsBarcode !== 'undefined') {
+                    // Generate AWB Barcode (Page 1)
+                    JsBarcode("#awbBarcode", "${b.awbNumber}", {
+                        format: "CODE128",
+                        width: 2,
+                        height: 60,
+                        displayValue: false,
+                        margin: 5,
+                        background: "#ffffff",
+                        lineColor: "#000000"
+                    });
+                    
+                    // Generate PI Barcode (Page 2)
+                    JsBarcode("#piBarcode", "${b.piNumber}", {
+                        format: "CODE128",
+                        width: 2,
+                        height: 60,
+                        displayValue: false,
+                        margin: 5,
+                        background: "#ffffff",
+                        lineColor: "#000000"
+                    });
+                    
+                    console.log("✅ Barcodes generated successfully");
+                } else {
+                    console.error("❌ JsBarcode library not loaded");
+                }
+            } catch (error) {
+                console.error("❌ Error generating barcodes:", error);
+            }
+        };
+    <\/script>
+    
+</body>
+</html>
     `;
 }
+
+
 
 // ============================================
 // 🔥 HELPERS

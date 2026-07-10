@@ -15,12 +15,21 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script><!-- Chart.js for Analytics -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+  
+  <!-- Include Quill JS -->
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <!-- HTML5 QR Code Scanner -->
+  
+
   
 <!-- Template Main JS File -->
 <script type="module" src="assets/js/admin.js?v=<?= filemtime('assets/js/admin.js') ?>"></script>
 <script type="module" src="assets/js/login.js?v=<?= filemtime('assets/js/login.js') ?>"></script>
 <script type="module" src="assets/js/userview.js?v=<?= filemtime('assets/js/userview.js') ?>"></script>
 <script type="module" src="assets/js/adduserview.js?v=<?= filemtime('assets/js/adduserview.js') ?>"></script>
+
+<script type="module" src="assets/js/countriesview.js?v=<?= filemtime('assets/js/countriesview.js') ?>">></script>
 
 <!-- 🔥 Customers Module -->
 <script type="module" src="assets/js/customerview.js?v=<?= filemtime('assets/js/customerview.js') ?>"></script>
@@ -74,10 +83,7 @@
 <script src="assets/js/breadcrumb.js?v=<?= filemtime('assets/js/breadcrumb.js') ?>"></script>
 
 
-  <!-- Include Quill JS -->
-<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-  <!-- HTML5 QR Code Scanner -->
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  
 
   
 </body>

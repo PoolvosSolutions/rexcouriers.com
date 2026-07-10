@@ -242,8 +242,18 @@ class HeroSlider {
 // ============================================
 // 🔥 STATS COUNTER ANIMATION
 // ============================================
+// ============================================
+// 🔥 STATS COUNTER ANIMATION (WITH NULL CHECKS)
+// ============================================
 function initStatsCounter() {
     const $statsSection = $('.stats-bar');
+    
+    // 🔥 FIX: Check if element exists before proceeding
+    if ($statsSection.length === 0) {
+        console.log("ℹ️ Stats section not found on this page, skipping animation");
+        return;
+    }
+    
     const $counters = $statsSection.find('.stat-number');
     let hasAnimated = false;
     
@@ -251,8 +261,8 @@ function initStatsCounter() {
         $counters.each(function() {
             const $counter = $(this);
             const target = parseInt($counter.data('count'));
-            const duration = 2000; // 2 seconds
-            const increment = target / (duration / 16); // 60fps
+            const duration = 2000;
+            const increment = target / (duration / 16);
             
             let current = 0;
             const timer = setInterval(() => {
@@ -261,25 +271,39 @@ function initStatsCounter() {
                     current = target;
                     clearInterval(timer);
                 }
-                $counter.text(Math.floor(current).toLocaleString());
+                
+                let displayValue = Math.floor(current);
+                if (target >= 100) {
+                    displayValue = displayValue.toLocaleString() + '+';
+                }
+                
+                $counter.text(displayValue);
             }, 16);
         });
     }
     
-    // Check if stats section is in viewport
     function checkVisibility() {
         if (hasAnimated) return;
         
-        const rect = $statsSection[0].getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+        // 🔥 FIX: Add null checks
+        if (!$statsSection[0]) {
+            console.warn("⚠️ Stats section element is undefined");
+            return;
+        }
         
-        if (isVisible) {
-            animateCounters();
-            hasAnimated = true;
+        try {
+            const rect = $statsSection[0].getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+            
+            if (isVisible) {
+                animateCounters();
+                hasAnimated = true;
+            }
+        } catch (error) {
+            console.error("❌ Error in checkVisibility:", error);
         }
     }
     
-    // Check on load and scroll
     $(window).on('scroll', checkVisibility);
     checkVisibility();
 }

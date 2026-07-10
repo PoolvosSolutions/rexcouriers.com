@@ -91,6 +91,9 @@ const APP_VIEWS = {
     customer:    { route: "includes/view/customer/customerview.php", roles: ["Admin", "SuperAdmin", "Customer"], init: "initCustomerView" },
     addcustomer: { route: "includes/view/customer/addcustomer.php",  roles: ["Admin", "SuperAdmin", "Customer"], init: "initAddCustomerView" }, // 🔥 FIXED init na
 
+    // 🔥 COUNTRIES MODULE
+countriesview: { route: "includes/view/admin/countriesview.php", roles: ["Admin", "SuperAdmin"], init: "initCountriesView" },
+
     // 🔥 CARRIERS MODULE
     carrier:    { route: "includes/view/carrier/carrierview.php", roles: ["Admin", "SuperAdmin"], init: "initCarrierView" },
     addcarrier: { route: "includes/view/carrier/addcarrier.php",  roles: ["Admin", "SuperAdmin"], init: "initAddCarrierView" },

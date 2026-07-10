@@ -1,0 +1,436 @@
+/* ==========================================================================
+   COUNTRIES VIEW STYLES
+   ========================================================================== */
+
+/* 🔥 STAT CARDS */
+.countries-page .stat-card { 
+    background: #fff; 
+    border-radius: 12px; 
+    padding: 1.25rem; 
+    display: flex; 
+    align-items: center; 
+    gap: 1rem; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
+    border: 1px solid #e5e7eb; 
+    transition: all 0.3s ease; 
+}
+.countries-page .stat-card:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+}
+.countries-page .stat-icon { 
+    width: 50px; 
+    height: 50px; 
+    border-radius: 10px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 1.5rem; 
+}
+.countries-page .stat-total .stat-icon { background: #dbeafe; color: #1e40af; }
+.countries-page .stat-cities .stat-icon { background: #fef3c7; color: #92400e; }
+.countries-page .stat-avg .stat-icon { background: #d1fae5; color: #065f46; }
+.countries-page .stat-value { font-size: 1.75rem; font-weight: 700; color: #1A1A1A; line-height: 1; }
+.countries-page .stat-label { font-size: 0.85rem; color: #6b7280; margin-top: 0.25rem; }
+
+/* 🔥 FILTER, PAGINATION, TABLE */
+.countries-page .filter-card, 
+.countries-page .pagination-controls, 
+.countries-page .table-card { 
+    background: #fff; 
+    border-radius: 12px; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
+    border: 1px solid #e5e7eb; 
+}
+.countries-page .filter-header { 
+    background: #f8f9fa; 
+    padding: 1rem 1.5rem; 
+    border-bottom: 1px solid #e5e7eb; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+.countries-page .filter-body { padding: 1.5rem; }
+.countries-page .pagination-controls { padding: 1rem 1.5rem; }
+.countries-page .table-card .table thead { background: #f8f9fa; }
+.countries-page .table-card .table thead th { 
+    font-size: 0.8rem; 
+    font-weight: 600; 
+    color: #374151; 
+    text-transform: uppercase; 
+    padding: 1rem; 
+    border: none; 
+    letter-spacing: 0.5px; 
+}
+.countries-page .table-card .table tbody tr { transition: background 0.2s; }
+.countries-page .table-card .table tbody tr:hover { background: #fef3f3; }
+.countries-page .table-card .table tbody td { 
+    padding: 0.85rem 1rem; 
+    font-size: 0.88rem; 
+    color: #374151; 
+    vertical-align: middle; 
+}
+
+/* 🔥 COUNTRY NAME */
+.country-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.country-flag-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1e40af;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+.country-name-text {
+    font-weight: 700;
+    color: #1A1A1A;
+    font-size: 0.95rem;
+}
+
+/* 🔥 PHONE CODE */
+.phone-code-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: #f3f4f6;
+    color: #374151;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    border: 1px solid #e5e7eb;
+}
+.phone-code-badge i {
+    color: #dc2626;
+    font-size: 0.9rem;
+}
+
+/* 🔥 CITIES COUNT */
+.cities-count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+.cities-count-badge.zero {
+    background: #fee2e2;
+    color: #991b1b;
+}
+.cities-count-badge.low {
+    background: #fef3c7;
+    color: #92400e;
+}
+.cities-count-badge.medium {
+    background: #dbeafe;
+    color: #1e40af;
+}
+.cities-count-badge.high {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+/* 🔥 SAMPLE CITIES */
+.sample-cities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+.city-tag {
+    background: #f3f4f6;
+    color: #374151;
+    padding: 0.25rem 0.65rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid #e5e7eb;
+}
+.city-tag.more {
+    background: #e5e7eb;
+    color: #6b7280;
+    font-style: italic;
+}
+
+/* 🔥 ACTION BUTTONS */
+.countries-page .action-buttons { 
+    display: flex; 
+    gap: 0.4rem; 
+    justify-content: center; 
+}
+.countries-page .btn-action { 
+    width: 34px; 
+    height: 34px; 
+    border-radius: 6px; 
+    border: none; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer; 
+    transition: all 0.2s; 
+    font-size: 0.9rem; 
+}
+.countries-page .btn-edit { 
+    background: #dbeafe; 
+    color: #1e40af; 
+}
+.countries-page .btn-edit:hover { 
+    background: #1e40af; 
+    color: #fff; 
+}
+.countries-page .btn-delete { 
+    background: #fee2e2; 
+    color: #991b1b; 
+}
+.countries-page .btn-delete:hover { 
+    background: #991b1b; 
+    color: #fff; 
+}
+
+/* 🔥 EDIT MODAL */
+#editCountryModal .modal-content {
+    border-radius: 12px;
+    border: none;
+}
+#editCountryModal .modal-header {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1.25rem 1.5rem;
+}
+#editCountryModal .modal-body {
+    padding: 1.5rem;
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+.edit-section {
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+.edit-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f3f4f6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#editCountryModal .form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.4rem;
+}
+#editCountryModal .form-control {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    padding: 0.6rem 0.75rem;
+}
+#editCountryModal .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(212, 32, 32, 0.1);
+}
+
+/* 🔥 ADD CITY FORM */
+.add-city-form {
+    background: #f0fdf4;
+    border: 2px dashed #86efac;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 🔥 CITIES LIST */
+.cities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.city-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.city-item:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.city-item-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.city-item-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1e40af;
+    font-size: 1rem;
+}
+
+.city-item-name {
+    font-weight: 600;
+    color: #1A1A1A;
+    font-size: 0.95rem;
+}
+
+.city-item-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.city-item-actions .btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+}
+
+/* 🔥 EMPTY CITIES */
+.empty-cities {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #9ca3af;
+}
+.empty-cities i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #d1d5db;
+}
+.empty-cities h6 {
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.empty-cities p {
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+/* 🔥 DELETE ICON */
+.delete-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.delete-icon-wrapper i {
+    font-size: 2.5rem;
+    color: #dc2626;
+}
+
+/* 🔥 SUCCESS ICON */
+.countries-page .success-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.countries-page .success-icon-wrapper i {
+    font-size: 2.5rem;
+    color: #059669;
+}
+
+/* 🔥 PAGINATION */
+.countries-page .pagination .page-link {
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.9rem;
+    margin: 0 0.15rem;
+    border-radius: 6px;
+}
+.countries-page .pagination .page-item.active .page-link {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+/* 🔥 RESPONSIVE */
+@media (max-width: 767.98px) {
+    .countries-page .stat-card { padding: 1rem; }
+    .countries-page .stat-value { font-size: 1.5rem; }
+    .countries-page .filter-body { padding: 1rem; }
+    .countries-page .pagination-controls { padding: 0.75rem 1rem; }
+    .countries-page .table-card .table thead th,
+    .countries-page .table-card .table tbody td { 
+        padding: 0.6rem 0.5rem; 
+        font-size: 0.8rem; 
+    }
+    .country-flag-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+    .city-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    .city-item-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+/* 🔥 SCROLLBAR */
+.cities-list::-webkit-scrollbar {
+    width: 6px;
+}
+.cities-list::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 3px;
+}
+.cities-list::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+.cities-list::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}

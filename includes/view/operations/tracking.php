@@ -1,6 +1,6 @@
 <?php
 // includes/view/operations/tracking.php
-// 🔥 Track Shipment - Rexcouris
+// 🔥 Track Shipment - Rexcouris (Complete Rewrite)
 ?>
 
 <div class="container-fluid py-4 tracking-page">
@@ -84,11 +84,16 @@
         </div>
         <div class="filter-body">
             <div class="row g-3">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" class="form-control" id="searchInput" 
-                               placeholder="Search AWB, PI, Customer, Destination...">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search AWB, PI, Customer...">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-receipt"></i></span>
+                        <input type="text" class="form-control" id="searchReceipt" placeholder="Carrier Receipt #">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -106,7 +111,6 @@
                 <div class="col-md-2">
                     <select class="form-select" id="filterCarrier">
                         <option value="">All Carriers</option>
-                        <!-- Populated dynamically -->
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -116,7 +120,7 @@
                         <option value="International">International</option>
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="input-group">
                         <input type="date" class="form-control" id="filterDateFrom" placeholder="From">
                         <span class="input-group-text">to</span>
@@ -127,12 +131,11 @@
         </div>
     </div>
 
-    <!-- PAGINATION CONTROLS (TOP) -->
+    <!-- PAGINATION TOP -->
     <div class="pagination-controls mb-3">
         <div class="d-flex justify-content-between align-items-center">
             <div class="showing-info">
-                Showing <span id="showingFrom">0</span> to <span id="showingTo">0</span> of 
-                <span id="showingTotal">0</span> shipments
+                Showing <span id="showingFrom">0</span> to <span id="showingTo">0</span> of <span id="showingTotal">0</span> shipments
             </div>
             <div class="items-per-page">
                 <label>Items per page:</label>
@@ -153,12 +156,12 @@
                 <thead>
                     <tr>
                         <th class="ps-4">AWB / PI</th>
+                        <th>Carrier Receipt</th>
                         <th>Date</th>
                         <th>Customer</th>
                         <th>Destination</th>
                         <th>Carrier</th>
                         <th>Status</th>
-                        <th>Last Update</th>
                         <th class="text-center pe-4">Actions</th>
                     </tr>
                 </thead>
@@ -174,7 +177,7 @@
         </div>
     </div>
 
-    <!-- PAGINATION CONTROLS (BOTTOM) -->
+    <!-- PAGINATION BOTTOM -->
     <div class="pagination-controls mt-3">
         <nav aria-label="Shipment pagination">
             <ul class="pagination justify-content-center mb-0" id="paginationContainer"></ul>
@@ -183,7 +186,7 @@
 </div>
 
 <!-- ============================================ -->
-<!-- 🔥 UPDATE STATUS MODAL (ENHANCED)            -->
+<!-- 🔥 UPDATE STATUS MODAL                       -->
 <!-- ============================================ -->
 <div class="modal fade" id="updateStatusModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -237,53 +240,47 @@
                     </div>
                 </div>
 
-                <!-- 🔥 REASON/STATEMENT - ALWAYS VISIBLE -->
+                <!-- Reason/Statement -->
                 <div class="edit-section">
                     <h6 class="section-title"><i class="bi bi-chat-left-text me-2"></i>Reason / Statement <span class="text-danger">*</span></h6>
                     <div class="alert alert-info small mb-3">
                         <i class="bi bi-info-circle me-1"></i>
-                        <strong>Important:</strong> Please provide a clear reason for this status change. This will be visible to customers in their tracking view and helps maintain transparency.
+                        <strong>Important:</strong> Please provide a clear reason for this status change.
                     </div>
                     <div class="row g-3">
                         <div class="col-12">
-                            <textarea class="form-control" id="statusReason" rows="3" 
-                                      placeholder="Enter reason for status change..." required></textarea>
-                            <small class="text-muted">
-                                <span id="reasonCharCount">0</span>/500 characters
-                            </small>
+                            <textarea class="form-control" id="statusReason" rows="3" placeholder="Enter reason for status change..." required></textarea>
+                            <small class="text-muted"><span id="reasonCharCount">0</span>/500 characters</small>
                         </div>
                         <div class="col-12">
                             <label class="form-label small fw-semibold">Quick Reasons (Click to use):</label>
-                            <div class="quick-reasons" id="quickReasons">
-                                <!-- Populated dynamically based on status -->
-                            </div>
+                            <div class="quick-reasons" id="quickReasons"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Carrier Selection (shown when changing to Intransit) -->
-                <div class="edit-section d-none" id="carrierSection">
-                    <h6 class="section-title"><i class="bi bi-truck me-2"></i>Assign Carrier</h6>
+                <!-- InTransit Details Section -->
+                <div class="edit-section d-none" id="intransitDetails">
+                    <h6 class="section-title"><i class="bi bi-truck me-2"></i>In Transit Details</h6>
+                    <div class="alert alert-warning small mb-3">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                        <strong>Important:</strong> Carrier and Receipt Number are mandatory for In Transit status.
+                    </div>
                     <div class="row g-3">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="form-label">Select Carrier <span class="text-danger">*</span></label>
-                            <select class="form-select" id="newCarrier">
+                            <select class="form-select" id="intransitCarrier" required>
                                 <option value="" disabled selected>Select Carrier</option>
                             </select>
                         </div>
-                    </div>
-                </div>
-
-                <!-- 🔥 DELIVERY-SPECIFIC FIELDS -->
-                
-                <!-- For Intransit: Why is it in transit? -->
-                <div class="edit-section d-none" id="intransitDetails">
-                    <h6 class="section-title"><i class="bi bi-truck me-2"></i>In Transit Details</h6>
-                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Carrier Receipt Number <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="carrierReceiptNumber" placeholder="e.g., TCS-123456789" required>
+                            <small class="text-muted">Receipt/booking number from carrier</small>
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label">Current Location</label>
-                            <input type="text" class="form-control" id="currentLocation" 
-                                   placeholder="e.g., Karachi Hub, Lahore Airport">
+                            <input type="text" class="form-control" id="currentLocation" placeholder="e.g., Karachi Hub">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Expected Delivery Date</label>
@@ -291,13 +288,12 @@
                         </div>
                         <div class="col-12">
                             <label class="form-label">Transit Notes</label>
-                            <input type="text" class="form-control" id="transitNotes" 
-                                   placeholder="e.g., Awaiting customs clearance, In sorting facility">
+                            <input type="text" class="form-control" id="transitNotes" placeholder="e.g., Awaiting customs clearance">
                         </div>
                     </div>
                 </div>
 
-                <!-- For Hold: Why is it on hold? -->
+                <!-- Hold Details -->
                 <div class="edit-section d-none" id="holdDetails">
                     <h6 class="section-title"><i class="bi bi-pause-circle me-2"></i>Hold Details</h6>
                     <div class="row g-3">
@@ -321,20 +317,18 @@
                         </div>
                         <div class="col-12">
                             <label class="form-label">Detailed Hold Reason</label>
-                            <textarea class="form-control" id="holdDetailedReason" rows="2" 
-                                      placeholder="Provide specific details about why shipment is on hold..."></textarea>
+                            <textarea class="form-control" id="holdDetailedReason" rows="2" placeholder="Provide specific details..."></textarea>
                         </div>
                     </div>
                 </div>
 
-                <!-- For Delivered: Who received it? -->
+                <!-- POD Details -->
                 <div class="edit-section d-none" id="podSection">
                     <h6 class="section-title"><i class="bi bi-clipboard-check me-2"></i>Proof of Delivery (POD)</h6>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Delivered To (Name) <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="deliveredTo" 
-                                   placeholder="Name of person who received" required>
+                            <input type="text" class="form-control" id="deliveredTo" placeholder="Name of person who received" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Relationship to Consignee</label>
@@ -355,18 +349,16 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Recipient ID (Optional)</label>
-                            <input type="text" class="form-control" id="recipientId" 
-                                   placeholder="CNIC/ID number if collected">
+                            <input type="text" class="form-control" id="recipientId" placeholder="CNIC/ID number">
                         </div>
                         <div class="col-12">
                             <label class="form-label">Delivery Remarks</label>
-                            <input type="text" class="form-control" id="deliveryRemarks" 
-                                   placeholder="e.g., Handed to security, Left at reception">
+                            <input type="text" class="form-control" id="deliveryRemarks" placeholder="e.g., Handed to security">
                         </div>
                     </div>
                 </div>
 
-                <!-- For Returned: Why returned? -->
+                <!-- Return Details -->
                 <div class="edit-section d-none" id="returnDetails">
                     <h6 class="section-title"><i class="bi bi-arrow-return-left me-2"></i>Return Details</h6>
                     <div class="row g-3">
@@ -388,20 +380,18 @@
                         </div>
                         <div class="col-12">
                             <label class="form-label">Detailed Return Reason</label>
-                            <textarea class="form-control" id="returnDetailedReason" rows="2" 
-                                      placeholder="Provide specific details about why shipment is being returned..."></textarea>
+                            <textarea class="form-control" id="returnDetailedReason" rows="2" placeholder="Provide specific details..."></textarea>
                         </div>
                     </div>
                 </div>
 
-                <!-- For Lost: Last known location -->
+                <!-- Lost Details -->
                 <div class="edit-section d-none" id="lostDetails">
                     <h6 class="section-title"><i class="bi bi-question-circle me-2"></i>Lost Shipment Details</h6>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Last Known Location</label>
-                            <input type="text" class="form-control" id="lastKnownLocation" 
-                                   placeholder="Where was it last seen?">
+                            <input type="text" class="form-control" id="lastKnownLocation" placeholder="Where was it last seen?">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Last Seen Date</label>
@@ -409,13 +399,12 @@
                         </div>
                         <div class="col-12">
                             <label class="form-label">Investigation Notes</label>
-                            <textarea class="form-control" id="investigationNotes" rows="2" 
-                                      placeholder="Details about the investigation..."></textarea>
+                            <textarea class="form-control" id="investigationNotes" rows="2" placeholder="Details about the investigation..."></textarea>
                         </div>
                     </div>
                 </div>
 
-                <!-- Status History Preview -->
+                <!-- Status History -->
                 <div class="edit-section">
                     <h6 class="section-title"><i class="bi bi-clock-history me-2"></i>Status History</h6>
                     <div id="statusHistoryPreview">
@@ -446,70 +435,15 @@
                 <h5 class="modal-title"><i class="bi bi-eye me-2"></i>Shipment Details</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body p-4" id="viewShipmentContent">
-                <!-- Content populated dynamically -->
-            </div>
+            <div class="modal-body p-4" id="viewShipmentContent"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="btnPrintFromView">
-                    <i class="bi bi-printer me-1"></i> Print
-                </button>
-                <button type="button" class="btn btn-warning" id="btnUpdateFromView">
-                    <i class="bi bi-arrow-repeat me-1"></i> Update Status
-                </button>
+                <button type="button" class="btn btn-primary" id="btnPrintFromView"><i class="bi bi-printer me-1"></i> Print</button>
+                <button type="button" class="btn btn-warning" id="btnUpdateFromView"><i class="bi bi-arrow-repeat me-1"></i> Update Status</button>
             </div>
         </div>
     </div>
 </div>
-
-<!-- SUCCESS & ERROR MODALS -->
-<div class="modal fade" id="statusUpdateSuccessModal" tabindex="-1" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-body text-center p-5">
-                <div class="success-icon-wrapper mb-4"><i class="bi bi-check-circle-fill"></i></div>
-                <h3 class="fw-bold mb-2">Status Updated!</h3>
-                <p class="text-muted mb-2">Shipment status has been successfully updated.</p>
-                <div class="status-update-info mb-4">
-                    <div class="info-row">
-                        <span class="label">AWB:</span>
-                        <span class="value mono" id="successAWB">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="label">New Status:</span>
-                        <span class="value" id="successStatus">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="label">Date:</span>
-                        <span class="value" id="successDate">-</span>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-rex-primary" id="btnCloseStatusSuccess">
-                    <i class="bi bi-check-circle me-1"></i> OK
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="trackingErrorModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header bg-danger text-white border-0">
-                <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Error</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body py-4">
-                <p id="trackingErrorMessage" class="mb-0 fs-5 text-center">Something went wrong.</p>
-            </div>
-            <div class="modal-footer border-0 justify-content-center">
-                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 <!-- ============================================ -->
 <!-- 🔥 ASSIGN CARRIER MODAL                      -->
@@ -524,7 +458,6 @@
             <div class="modal-body">
                 <input type="hidden" id="assignShipmentId">
                 
-                <!-- Current Shipment Info -->
                 <div class="current-shipment-box mb-4">
                     <div class="row g-3">
                         <div class="col-md-4">
@@ -552,7 +485,6 @@
                     </div>
                 </div>
 
-                <!-- Currently Assigned Carrier -->
                 <div class="current-carrier-info mb-4">
                     <h6 class="fw-bold mb-2"><i class="bi bi-info-circle me-1"></i>Currently Assigned Carrier</h6>
                     <div id="currentCarrierDisplay">
@@ -560,7 +492,6 @@
                     </div>
                 </div>
 
-                <!-- New Carrier Selection -->
                 <div class="edit-section">
                     <h6 class="section-title"><i class="bi bi-truck me-2"></i>Select Carrier</h6>
                     <div class="row g-3">
@@ -568,62 +499,65 @@
                             <label class="form-label">Choose Carrier <span class="text-danger">*</span></label>
                             <select class="form-select form-select-lg" id="assignCarrierSelect" required>
                                 <option value="" disabled selected>Select Carrier</option>
-                                <!-- Populated dynamically -->
                             </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Carrier Receipt Number <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg" id="assignCarrierReceipt" placeholder="Enter carrier receipt/booking number" required>
+                            <small class="text-muted"><i class="bi bi-info-circle me-1"></i> This number links your AWB/PI with carrier's tracking system</small>
                         </div>
                     </div>
                 </div>
 
-                <!-- Carrier Details Preview -->
                 <div class="carrier-details-preview d-none" id="carrierDetailsPreview">
                     <h6 class="fw-bold mb-2"><i class="bi bi-building me-1"></i>Carrier Details</h6>
                     <div class="carrier-info-grid">
-                        <div class="carrier-info-item">
-                            <span class="label">Name:</span>
-                            <span class="value" id="previewCarrierName">-</span>
-                        </div>
-                        <div class="carrier-info-item">
-                            <span class="label">Code:</span>
-                            <span class="value" id="previewCarrierCode">-</span>
-                        </div>
-                        <div class="carrier-info-item">
-                            <span class="label">Type:</span>
-                            <span class="value" id="previewCarrierType">-</span>
-                        </div>
-                        <div class="carrier-info-item">
-                            <span class="label">Contact:</span>
-                            <span class="value" id="previewCarrierContact">-</span>
-                        </div>
+                        <div class="carrier-info-item"><span class="label">Name:</span><span class="value" id="previewCarrierName">-</span></div>
+                        <div class="carrier-info-item"><span class="label">Code:</span><span class="value" id="previewCarrierCode">-</span></div>
+                        <div class="carrier-info-item"><span class="label">Type:</span><span class="value" id="previewCarrierType">-</span></div>
+                        <div class="carrier-info-item"><span class="label">Contact:</span><span class="value" id="previewCarrierContact">-</span></div>
                     </div>
                 </div>
 
-                <!-- Assignment Notes -->
                 <div class="edit-section">
                     <h6 class="section-title"><i class="bi bi-chat-left-text me-2"></i>Assignment Notes</h6>
                     <div class="row g-3">
                         <div class="col-12">
-                            <textarea class="form-control" id="carrierAssignmentNotes" rows="2" 
-                                      placeholder="Optional notes about carrier assignment..."></textarea>
+                            <textarea class="form-control" id="carrierAssignmentNotes" rows="2" placeholder="Optional notes..."></textarea>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-        <i class="bi bi-x-circle me-1"></i> Cancel
-    </button>
-    <button type="button" class="btn btn-success" id="btnConfirmAssignCarrier">
-        <span class="btn-text"><i class="bi bi-check-circle me-1"></i> Assign Carrier</span>
-        <span class="btn-loader d-none"><span class="spinner-border spinner-border-sm me-2"></span> Assigning...</span>
-    </button>
-</div>
-
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle me-1"></i> Cancel</button>
+                <button type="button" class="btn btn-success" id="btnConfirmAssignCarrier">
+                    <span class="btn-text"><i class="bi bi-check-circle me-1"></i> Assign Carrier</span>
+                    <span class="btn-loader d-none"><span class="spinner-border spinner-border-sm me-2"></span> Assigning...</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- CARRIER ASSIGNMENT SUCCESS MODAL -->
+<!-- SUCCESS & ERROR MODALS -->
+<div class="modal fade" id="statusUpdateSuccessModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-body text-center p-5">
+                <div class="success-icon-wrapper mb-4"><i class="bi bi-check-circle-fill"></i></div>
+                <h3 class="fw-bold mb-2">Status Updated!</h3>
+                <p class="text-muted mb-2">Shipment status has been successfully updated.</p>
+                <div class="status-update-info mb-4">
+                    <div class="info-row"><span class="label">AWB:</span><span class="value mono" id="successAWB">-</span></div>
+                    <div class="info-row"><span class="label">New Status:</span><span class="value" id="successStatus">-</span></div>
+                    <div class="info-row"><span class="label">Date:</span><span class="value" id="successDate">-</span></div>
+                </div>
+                <button type="button" class="btn btn-rex-primary" id="btnCloseStatusSuccess"><i class="bi bi-check-circle me-1"></i> OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="carrierAssignSuccessModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow">
@@ -632,24 +566,29 @@
                 <h3 class="fw-bold mb-2">Carrier Assigned!</h3>
                 <p class="text-muted mb-2">Carrier has been successfully assigned to the shipment.</p>
                 <div class="status-update-info mb-4">
-                    <div class="info-row">
-                        <span class="label">AWB:</span>
-                        <span class="value mono" id="successAssignAWB">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="label">Carrier:</span>
-                        <span class="value" id="successAssignCarrier">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="label">Assigned Date:</span>
-                        <span class="value" id="successAssignDate">-</span>
-                    </div>
+                    <div class="info-row"><span class="label">AWB:</span><span class="value mono" id="successAssignAWB">-</span></div>
+                    <div class="info-row"><span class="label">Carrier:</span><span class="value" id="successAssignCarrier">-</span></div>
+                    <div class="info-row"><span class="label">Assigned Date:</span><span class="value" id="successAssignDate">-</span></div>
                 </div>
-                <button type="button" class="btn btn-success" id="btnCloseCarrierSuccess">
-                    <i class="bi bi-check-circle me-1"></i> OK
-                </button>
+                <button type="button" class="btn btn-success" id="btnCloseCarrierSuccess"><i class="bi bi-check-circle me-1"></i> OK</button>
             </div>
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="trackingErrorModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-danger text-white border-0">
+                <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Error</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body py-4">
+                <p id="trackingErrorMessage" class="mb-0 fs-5 text-center">Something went wrong.</p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -149,6 +149,20 @@
             </li>
 
 
+            <!-- Settings Menu -->
+            <li class="menu-group">
+                <a href="#" class="menu-parent" data-submenu="submenuSettings">
+                    <i class="bi bi-gear"></i>
+                    <span>Settings</span>
+                    <i class="bi bi-chevron-down ms-auto submenu-arrow"></i>
+                </a>
+                <ul class="submenu" id="submenuSettings">
+                    <li><a href="#" class="menu-link" data-view="countriesview"><i class="bi bi-globe-americas"></i> <span>Countries</span></a></li>
+                    <!-- Other settings items -->
+                </ul>
+            </li>
+
+
             <!-- 🔥 TERMS & UNDERTAKINGS MENU -->
         <li class="menu-group">
             <a href="#" class="menu-parent" data-submenu="submenuLegal">
